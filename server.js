@@ -3,13 +3,12 @@ const path = require('path');
 const fs = require('fs');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
-const multer = require('multer'); // Import multer untuk menangani upload file
+const multer = require('multer');
 const app = express();
 const port = 8080;
 
 // Konfigurasi untuk membaca file di luar folder
-const parentDir = path.join(__dirname, '.'); // Naik satu level dari direktori server.js
-const indexPath = path.join(parentDir, '/index.html');
+const indexPath = path.resolve(__dirname, 'index.html');
 
 
 // Konfigurasi multer untuk menyimpan file di memori
