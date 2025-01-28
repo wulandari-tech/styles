@@ -8,8 +8,9 @@ const app = express();
 const port = 8080;
 
 // Konfigurasi untuk membaca file di folder yang sama dengan file JS
-const indexPath = path.join(__dirname, 'index.html'); // Perbaikan disini
-
+// __dirname akan merepresentasikan direktori dimana file js ini dijalankan
+const indexPath = path.join(__dirname, 'index.html');
+console.log('Path to index.html:', indexPath); // Untuk debug path
 
 // Konfigurasi multer untuk menyimpan file di memori
 const upload = multer({
@@ -18,6 +19,7 @@ const upload = multer({
 
 // Endpoint untuk menampilkan halaman index.html
 app.get('/', (req, res) => {
+    console.log('Request received for /');
     fs.readFile(indexPath, 'utf8', (err, html) => {
         if (err) {
             console.error('Failed to read index.html:', err);
@@ -25,8 +27,9 @@ app.get('/', (req, res) => {
                 <h1>Internal Server Error</h1>
                 <p>Error: Could not read index.html. Please check if the file exists at the correct location.</p>
                 <p>Details: ${err.message}</p>
-            `); // Pesan error yang lebih informatif
+            `);
         }
+        console.log('Successfully read index.html');
         res.send(html);
     });
 });
@@ -38,7 +41,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
             return res.status(400).send(`
             <h1>Bad Request</h1>
             <p>Error: No file uploaded. Please choose a file to upload.</p>
-          `); // Pesan error yang lebih jelas
+          `);
         }
 
         const fileBuffer = req.file.buffer;
@@ -57,13 +60,12 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
         if (!response.ok) {
            const responseText = await response.text()
-           throw new Error(`Upload failed with status ${response.status} - ${responseText}`); // Menampilkan response text dari server
+           throw new Error(`Upload failed with status ${response.status} - ${responseText}`);
         }
-
 
         const result = await response.json();
         if (!result.links || result.links.length === 0) {
-             throw new Error(`Invalid response from Telegraph API. No links found.`); // Error handling tambahan jika link tidak ditemukan
+             throw new Error(`Invalid response from Telegraph API. No links found.`);
         }
 
         const telegraphLink = result.links[0];
@@ -79,7 +81,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
          res.status(500).send(`
             <h1>Internal Server Error</h1>
             <p>Error during file upload: ${error.message}</p>
-            `); // Pesan error yang lebih informatif
+            `);
     }
 });
 
