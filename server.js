@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const FormData = require('form-data');
 const multer = require('multer');
 const app = express();
-const port = 8080;
+const port = 3000;
 
 // Konfigurasi untuk membaca file di folder yang sama dengan file JS
 // __dirname akan merepresentasikan direktori dimana file js ini dijalankan
