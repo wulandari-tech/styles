@@ -233,26 +233,18 @@
        <script src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.0/js/OverlayScrollbars.min.js" integrity="sha512-wT/q/m6T+9v5l9Zk6b6h2j4c86zC99/p8o8/z9Q8vY8z8Y8l8e8a3a8/s9l/w+P/4K/y+6h/w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 <script>
     $(document).ready(function () {
-       // Inisialisasi AOS
         AOS.init();
-
-        let currentPage = 'home'; // Inisialisasi variabel halaman aktif
-
-        // Fungsi untuk menangani klik navigasi sidebar
+        let currentPage = 'home';
         $('#sidebar a').on('click', function (e) {
             e.preventDefault();
             $('#sidebar a').removeClass('active');
             $(this).addClass('active');
             currentPage = $(this).data('page');
             console.log("Navigated to:", currentPage);
-
         });
-
-        let selectedFile; // Variabel untuk menyimpan file yang dipilih
-        // Event handler untuk input file
+        let selectedFile;
         $('#imageUpload').on('change', function (e) {
             selectedFile = e.target.files[0];
             if (selectedFile) {
@@ -267,8 +259,6 @@
                 $('#submitImage').hide();
             }
         });
-
-        // Event handler untuk tombol submit image
         $('#submitImage').on('click', function () {
              if (!selectedFile) {
                 Swal.fire({
@@ -278,15 +268,11 @@
                     confirmButtonText: 'Ok'
                 });
                 return;
-            }
-
-
+             }
             const formData = new FormData();
             formData.append('image', selectedFile);
-
-            // Konfirmasi upload menggunakan SweetAlert
              Swal.fire({
-                title: 'Uploading image...',
+                title: 'mengunggah gambar...',
                 allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
@@ -314,7 +300,7 @@
                        $('#image-results-container').prepend(`<div class="card mb-3"><div class="card-body d-flex align-items-center"><img src="${telegraphLink}" alt="Uploaded Image" class="img-fluid mr-2" style="max-height: 100px;"><div><p class="card-text mb-0">Image URL:</p><a href="${telegraphLink}" target="_blank" class="card-link">${telegraphLink}</a></div></div></div>`);
                     Swal.fire({
                         title: 'Success!',
-                        text: 'Image uploaded to Telegraph successfully!',
+                        text: 'gambar berhasil di convert ke url!',
                         icon: 'success',
                         timer: 1500,
                         showConfirmButton: false
@@ -339,13 +325,11 @@
                     });
                 });
         });
-
-        // Fungsi untuk copy text ke clipboard
           function copyTextToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 Swal.fire({
                     title: 'Copied!',
-                    text: 'Text has been copied to clipboard',
+                    text: 'teks telah disalin ke clipboard Teks telah disalin ke clipboard ',
                     icon: 'success',
                     timer: 1500,
                     showConfirmButton: false
@@ -359,14 +343,10 @@
                     confirmButtonText: 'Ok'
                 });
             });
-        }
-
-        // Event handler untuk toggle sidebar
-        $('#sidebar-toggle').click(function () {
+    }
+       $('#sidebar-toggle').click(function () {
             $('#sidebar').toggleClass('open');
         });
-
-         // Event handler untuk toggle tema (dark mode)
          $('#themeToggle').click(function () {
             $('body').toggleClass('dark-mode');
             if ($('body').hasClass('dark-mode')) {
@@ -375,9 +355,7 @@
                 $(this).removeClass('fa-moon').addClass('fa-sun');
             }
         });
-
         console.log("Current date (Moment.js):", moment().format("YYYY-MM-DD HH:mm:ss"));
-
         function createChart(data) {
              const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -523,12 +501,8 @@
             },
             "retina_detect": true
         });
-
-
-        // Event handler untuk tombol apply text
          $('#applyButton').click(function () {
             const inputText = $('#textInput').val().trim();
-
             if (!inputText) {
                  Swal.fire({
                     title: 'Error!',
@@ -538,45 +512,31 @@
                 });
                 return;
             }
-
-
               const words = inputText.split(/\s+/); // Split string jadi array
            const labels = words.map((word, index) => `Word ${index + 1}`); // Buat label untuk setiap word
           const values = words.map(word => word.length); // Dapatkan jumlah huruf dari setiap word
-
-
-         const chartData = {
+       const chartData = {
              labels: labels,
                 values: values
          };
-
           const textContainer = $("#resultsContainer");
              textContainer.empty();
-
-
         words.forEach((word, index) => {
-
              const cardDiv = $(`<div class="col-md-4 mb-3"><div class="card"><div class="card-body">
                     <h5 class="card-title">Word ${index + 1}</h5>
                     <p class="card-text"><span class="styled-text" data-aos="fade-up" data-aos-duration="500" data-aos-delay="${index * 100}">${word}</span></p>
                      <button class="btn btn-sm btn-secondary copy-button" data-text="${word}">copy</button>
                 </div></div></div>`);
              textContainer.append(cardDiv);
-
              });
-
 
              $('.copy-button').on('click', function () {
                 const text = $(this).data('text');
                 copyTextToClipboard(text)
              });
-
-
-
             createChart(chartData);
             AOS.refresh()
         });
-
     });
 </script>
 </body>
