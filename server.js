@@ -8,8 +8,8 @@ const app = express();
 const port = 8080;
 
 // Konfigurasi untuk membaca file di luar folder
-const parentDir = path.join(__dirname, '/'); // Naik satu level dari direktori server.js
-const indexPath = path.join(parentDir, 'index.html');
+const parentDir = path.join(__dirname, '.'); // Naik satu level dari direktori server.js
+const indexPath = path.join(parentDir, '/index.html');
 
 
 // Konfigurasi multer untuk menyimpan file di memori
