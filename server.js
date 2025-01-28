@@ -8,7 +8,7 @@ const app = express();
 const port = 8080;
 
 // Konfigurasi untuk membaca file di luar folder
-const indexPath = path.resolve(__dirname, 'index.html');
+const indexPath = path.resolve(__dirname, '../index.html');
 
 
 // Konfigurasi multer untuk menyimpan file di memori
