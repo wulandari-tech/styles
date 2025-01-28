@@ -7,8 +7,8 @@ const multer = require('multer');
 const app = express();
 const port = 8080;
 
-// Konfigurasi untuk membaca file di luar folder
-const indexPath = path.resolve(__dirname, '../index.html');
+// Konfigurasi untuk membaca file di folder yang sama dengan file JS
+const indexPath = path.join(__dirname, 'index.html'); // Perbaikan disini
 
 
 // Konfigurasi multer untuk menyimpan file di memori
@@ -21,7 +21,11 @@ app.get('/', (req, res) => {
     fs.readFile(indexPath, 'utf8', (err, html) => {
         if (err) {
             console.error('Failed to read index.html:', err);
-            return res.status(500).send('Internal Server Error');
+            return res.status(500).send(`
+                <h1>Internal Server Error</h1>
+                <p>Error: Could not read index.html. Please check if the file exists at the correct location.</p>
+                <p>Details: ${err.message}</p>
+            `); // Pesan error yang lebih informatif
         }
         res.send(html);
     });
@@ -31,7 +35,10 @@ app.get('/', (req, res) => {
 app.post('/upload', upload.single('image'), async (req, res) => {
     try {
         if (!req.file) {
-            return res.status(400).send('No file uploaded.');
+            return res.status(400).send(`
+            <h1>Bad Request</h1>
+            <p>Error: No file uploaded. Please choose a file to upload.</p>
+          `); // Pesan error yang lebih jelas
         }
 
         const fileBuffer = req.file.buffer;
@@ -49,11 +56,16 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
 
         if (!response.ok) {
-            throw new Error(`Upload failed with status ${response.status}`);
+           const responseText = await response.text()
+           throw new Error(`Upload failed with status ${response.status} - ${responseText}`); // Menampilkan response text dari server
         }
 
 
         const result = await response.json();
+        if (!result.links || result.links.length === 0) {
+             throw new Error(`Invalid response from Telegraph API. No links found.`); // Error handling tambahan jika link tidak ditemukan
+        }
+
         const telegraphLink = result.links[0];
 
         res.send(`
@@ -64,10 +76,12 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
     } catch (error) {
         console.error('Error uploading file:', error);
-        res.status(500).send(`Error during file upload: ${error.message}`);
+         res.status(500).send(`
+            <h1>Internal Server Error</h1>
+            <p>Error during file upload: ${error.message}</p>
+            `); // Pesan error yang lebih informatif
     }
 });
-
 
 // Jalankan server
 app.listen(port, () => {
