@@ -27,7 +27,7 @@
 
         .result-area {
             margin-top: 20px;
-            display: none;
+            display: none; 
         }
 
         .result-input {
@@ -41,30 +41,48 @@
         .progress-bar{
           transition: width 0.3s ease
         }
-        #loading-overlay {
-            display: none;
-            position: fixed;
+
+         .skeleton-loader {
+          background-color: #f2f2f2; 
+          border-radius: 6px;
+          margin-bottom: 10px;
+          overflow: hidden;
+          position: relative;
+         }
+         .skeleton-loader.skeleton-title {
+          height: 30px;
+          margin-bottom: 20px;
+          width: 50%;
+         }
+         .skeleton-loader.skeleton-input{
+          height: 40px;
+          width: 100%;
+        }
+        .skeleton-loader.skeleton-button {
+            height: 45px;
+            width: 100%;
+        }
+
+        .skeleton-loader::before {
+         content: "";
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+            width: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 1.5s linear infinite;
         }
-        .loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 2s linear infinite;
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -77,10 +95,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"/>
      <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 </head>
 <body>
-    <div id="loading-overlay" style="display: none;">
-        <div class="loader"></div>
+  <div id="skeleton-container" class="container" data-aos="fade-up" data-aos-duration="1000" style="display: none">
+        <div class="row justify-center">
+            <div class="col-md-6 animate__animated animate__fadeIn">
+                <div class="upload-card bg-white shadow-md rounded-lg p-5">
+                   <div class="skeleton-loader skeleton-title"></div>
+                  <div class="skeleton-loader skeleton-input"></div>
+                   <div class="skeleton-loader skeleton-button"></div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="container" data-aos="fade-up" data-aos-duration="1000">
         <div class="row justify-center">
@@ -157,6 +184,7 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
     <script>
          const form = document.getElementById('upload-form');
         const imageInput = document.getElementById('image-upload');
@@ -164,9 +192,10 @@
         const resultLinkInput = document.getElementById('result-link-input');
         const progressDiv = document.getElementById('upload-progress');
         const progressBar = progressDiv.querySelector('.progress-bar');
-          const loadingOverlay = document.getElementById('loading-overlay');
         const copyButton = document.getElementById('copy-button');
-        const progressBarTween = gsap.to(progressBar, {
+        const skeletonContainer = document.getElementById('skeleton-container')
+        const mainContainer = document.querySelector('.container:not(#skeleton-container)')
+         const progressBarTween = gsap.to(progressBar, {
         duration: 1,
         width: '100%',
         ease: 'power2.out',
@@ -178,10 +207,12 @@
          progressBar.textContent = "100%"
         }
       });
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
-             loadingOverlay.style.display = 'flex';
+             skeletonContainer.style.display = 'block';
+             mainContainer.style.display = 'none';
             progressDiv.style.display = 'block';
             resultDiv.style.display = 'none';
              progressBar.style.width = '0%';
@@ -219,10 +250,12 @@
             } finally {
                  progressBarTween.pause(0);
                  progressDiv.style.display = 'none';
-                loadingOverlay.style.display = 'none';
+                  skeletonContainer.style.display = 'none';
+                  mainContainer.style.display = 'block';
             }
 
         });
+
       copyButton.addEventListener('click', () => {
           resultLinkInput.select();
            document.execCommand('copy');
@@ -231,6 +264,7 @@
               title: 'Link Copied!'
            })
       })
+
         imageInput.addEventListener('change', function (event) {
             const file = event.target.files[0];
             if (file) {
@@ -254,6 +288,7 @@
               }
              }
         });
+
     </script>
 </body>
 </html>
