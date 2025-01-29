@@ -128,52 +128,61 @@
         const resultDiv = document.getElementById('upload-result');
         const progressDiv = document.getElementById('upload-progress');
         const progressBar = progressDiv.querySelector('.progress-bar');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
+       form.addEventListener('submit', async (e) => {
+           e.preventDefault();
+           const formData = new FormData(form);
             progressDiv.style.display = 'block';
             progressBar.style.width = '0%';
-            progressBar.textContent = '0%';
-            try {
-                 const response = await fetch('/upload', {
+           progressBar.textContent = '0%';
+           try {
+               const response = await fetch('/upload', {
                     method: 'POST',
-                    body: formData,
-                 });
-                if(!response.ok) {
-                    throw new Error(`Upload Gagal: ${response.status} `)
+                   body: formData,
+                });
+                 if (!response.ok) {
+                     let errorMessage = `Upload Gagal: ${response.status} `;
+                       try {
+                       const errorData = await response.json();
+                           if(errorData && errorData.message){
+                                errorMessage += ` - ${errorData.message}`
+                           }
+                     } catch (parseError) {
+                        console.error("Gagal memparsing error JSON dari server", parseError)
+                    }
+                 throw new Error(errorMessage)
                 }
-                const data = await response.json();
+               const data = await response.json();
                 if (data && data.links && data.links.length > 0) {
                    resultDiv.innerHTML = `<div class="alert alert-success text-center" role="alert">
                      UPLOAD BERHASIL: <a href="${data.links[0]}" target="_blank" class="result-link">${data.links[0]}</a>
-                    </div>`
+                    </div>`;
                     resultDiv.style.display = 'block';
-                }else{
-                      resultDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">
-                     Upload Gagal, Tidak Ada Link yang Dikembalikan!
-                    </div>`
+               }else{
+                    resultDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">
+                      Upload Gagal, Tidak Ada Link yang Dikembalikan!
+                    </div>`;
                      resultDiv.style.display = 'block';
                 }
-            } catch (error) {
-                resultDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">
-                   Error saat upload: ${error.message}
-                 </div>`
-                resultDiv.style.display = 'block';
-            }finally{
+           } catch (error) {
+              resultDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">
+                 Error saat upload: ${error.message}
+                 </div>`;
+                 resultDiv.style.display = 'block';
+             }finally{
                 progressDiv.style.display = 'none';
-            }
+             }
+       });
 
+       imageInput.addEventListener('change', function(event) {
+          const file = event.target.files[0];
+           if (file) {
+               const filesize = file.size / 1024;
+                if (filesize > 200480) {
+                   alert("Ukuran File terlalu Besar, Max 200 MB!");
+                   imageInput.value = "";
+               }
+           }
         });
-      imageInput.addEventListener('change', function(event) {
-      const file = event.target.files[0];
-       if (file) {
-         const filesize = file.size / 1024;
-         if (filesize > 200480) {
-             alert("Ukuran File terlalu Besar, Max 200 MB!");
-             imageInput.value = "";
-         }
-        }
-      });
-    </script>
+   </script>
 </body>
 </html>
