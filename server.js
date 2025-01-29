@@ -11,38 +11,39 @@ const PORT = 3000;
 const storage = multer.memoryStorage();
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 20 * 1024 * 1024 } // Batas ukuran file 20 MB
+    limits: { fileSize: 20 * 1024 * 1024 }, // Batas ukuran file 20 MB
+    fileFilter: (req, file, cb) => {
+        // Filter file berdasarkan tipe MIME
+        const allowedMimeTypes = ['image/jpeg', 'image/png', 'video/mp4', 'audio/mpeg', 'audio/mp3'];
+        if (allowedMimeTypes.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(new Error('Tipe file tidak diizinkan. Hanya gambar (JPG, PNG), video MP4, dan audio MP3 yang diizinkan.'), false);
+        }
+      },
 });
 
 // Middleware untuk melayani file statis dari folder 'public'
 app.use(express.static(path.join(__dirname)));
 
-app.post('/upload', upload.single('file'), async (req, res) => {
+app.post('/upload', upload.single('file'), async (req, res) => { // Ubah 'image' menjadi 'file'
     try {
         if (!req.file) {
             return res.status(400).json({ error: 'Tidak ada file yang diunggah.' });
         }
 
         const fileBuffer = req.file.buffer;
-        const originalFileName = req.file.originalname || 'file';
+        const originalFileName = req.file.originalname;
         let customFileName = 'wanz';
-         let fileExtension = path.extname(originalFileName).toLowerCase(); // Mendapatkan ekstensi file
 
-        // Tentukan nama file custom berdasarkan jenis file
-        if (fileExtension === '.mp4' || fileExtension === '.mov' || fileExtension === '.avi') {
-             customFileName += '.mp4';
-        } else if (fileExtension === '.mp3' || fileExtension === '.wav' || fileExtension === '.ogg') {
-             customFileName += '.mp3';
-        }else{
-             customFileName += '.jpg';
-        }
-
+        // Menentukan ekstensi file
+        const fileExtension = path.extname(originalFileName);
+        customFileName += fileExtension
 
         const formData = new FormData();
-         formData.append('file', fileBuffer, originalFileName); // Gunakan nama asli saat upload
-        formData.append('images', fileBuffer, originalFileName);
-         const uploadURL = 'https://telegraph.zorner.men/upload';
+        formData.append('images', fileBuffer, originalFileName); // Gunakan nama asli saat upload
 
+        const uploadURL = 'https://telegraph.zorner.men/upload';
 
         const response = await fetch(uploadURL, {
             method: 'POST',
@@ -66,13 +67,15 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         // Proses hasil dari Telegraph untuk mengganti nama file
         if (result && result.src) {
             const originalUrl = result.src;
+             // Mendapatkan base URL (sampai slash terakhir)
             const baseURL = originalUrl.substring(0, originalUrl.lastIndexOf('/') + 1);
+
             const customUrl = `${baseURL}${customFileName}`;
 
             // Mengembalikan response dengan URL custom
             res.json({ ...result, src: customUrl });
         } else {
-            res.json(result); // Jika tidak ada src di response, kirim aslinya
+             res.json(result); // Jika tidak ada src di response, kirim aslinya
         }
 
     } catch (error) {
