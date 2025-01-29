@@ -2,14 +2,12 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>telegraph</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -26,27 +24,24 @@
              font-family: 'Roboto', sans-serif;
              overflow-x: hidden;
         }
-        .hero-section {
-          background-image: url('https://images.unsplash.com/photo-1606107557195-0e29a6830f4c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-          background-size: cover;
-          background-position: center;
+          .hero-section {
           position: relative;
+          background-color: #3498db; /* Warna latar belakang */
             color: #fff;
         }
-        .hero-section::before {
-            content: '';
-             position: absolute;
-              top: 0;
-             right: 0;
-             bottom: 0;
-             left: 0;
-             background-color: rgba(0, 0, 0, 0.5);
-        }
-         .hero-section .container{
+         .hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-color: rgba(0, 0, 0, 0.5); /* Overlay gelap */
+            }
+          .hero-section .container{
                 position: relative;
                 z-index: 1;
              }
-
         .container {
            margin-top: 20px;
             display: flex;
@@ -160,15 +155,11 @@
         }
         footer {
             margin-top: auto;
+            text-align: center;
         }
          header {
              margin-bottom: 20px;
          }
-          .slick-slide img {
-             display: block;
-              width: 100%;
-            height: auto;
-          }
            @media (max-width: 768px) {
             .container {
                 padding: 60px;
@@ -288,21 +279,8 @@
                 </div>
             </div>
     </div>
-      <section class="example-gallery py-12 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="text-center text-3xl font-bold mb-8">Galeri Contoh</h2>
-            <div class="image-carousel">
-                 <div class="slider">
-                   <div><img data-src="https://images.unsplash.com/photo-1542909165-984e1a00e513?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Example 1" class="lozad"></div>
-                     <div><img data-src="https://images.unsplash.com/photo-1534670010411-a28f454c019c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Example 2"  class="lozad"></div>
-                   <div><img data-src="https://images.unsplash.com/photo-1534670010411-a28f454c019c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Example 3" class="lozad"></div>
-                     <div><img data-src="https://images.unsplash.com/photo-1542909165-984e1a00e513?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Example 4"  class="lozad"></div>
-              </div>
-            </div>
-        </div>
-    </section>
     <footer class="bg-gray-800 text-white py-2 mt-8">
-        <div class="container mx-auto px-4 text-center">
+        <div class="container mx-auto px-4">
             <p>© 2024-2025 wanzofc.</p>
              <p>by <i class="fas fa-heart text-red-500"></i></p>
             <div class="mt-2">
@@ -325,9 +303,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -367,8 +343,6 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
      <script src="https://unpkg.com/scrollreveal"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.16/typed.umd.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/swr/2.2.4/swr.min.js"></script>
     <script>
          const form = document.getElementById('upload-form');
          const imageInput = document.getElementById('image-upload');
@@ -520,24 +494,7 @@
              backSpeed: 25,
              loop: false,
          });
-        const observer = lozad();
-         observer.observe();
-          $('.slider').slick({
-            infinite: true,
-            slidesToShow: 3,
-            slidesToScroll: 1,
-              autoplay: true,
-              autoplaySpeed: 2000,
-              responsive: [
-                    {
-                      breakpoint: 768,
-                      settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                      }
-                    }
-               ]
-         });
+        
          if (window.Worker) {
             const myWorker = new Worker('worker.js')
             myWorker.onmessage = function (event) {
