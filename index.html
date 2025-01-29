@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,24 +20,41 @@
     <style>
         body {
             background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+             font-family: 'Roboto', sans-serif;
+             overflow-x: hidden;
         }
+
         .container {
-            margin-top: 50px;
+           margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 20px;
         }
+
+
         .upload-card {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
         }
+
         .upload-card h2 {
             margin-bottom: 10px;
         }
+
         .result-area {
             margin-top: 20px;
             display: none;
             align-items: center;
         }
+
         .result-input {
             width: calc(100% - 60px);
             display: inline-block;
@@ -45,9 +63,11 @@
             padding: 0.375rem 0.75rem;
             border-radius: 4px;
         }
+
         .progress-bar {
             transition: width 0.3s ease;
         }
+
         .skeleton-loader {
             background-color: #f2f2f2;
             border-radius: 6px;
@@ -55,19 +75,23 @@
             overflow: hidden;
             position: relative;
         }
+
         .skeleton-loader.skeleton-title {
             height: 30px;
             margin-bottom: 20px;
             width: 50%;
         }
+
         .skeleton-loader.skeleton-input {
             height: 40px;
             width: 100%;
         }
+
         .skeleton-loader.skeleton-button {
             height: 45px;
             width: 100%;
         }
+
         .skeleton-loader::before {
             content: "";
             position: absolute;
@@ -78,14 +102,17 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             animation: shimmer 1.5s linear infinite;
         }
+
         @keyframes shimmer {
             0% {
                 transform: translateX(-100%);
             }
+
             100% {
                 transform: translateX(100%);
             }
         }
+
         #image-preview {
             margin-top: 10px;
             max-width: 100%;
@@ -94,13 +121,31 @@
             border-radius: 5px;
             border: 1px solid #ddd;
         }
+        footer {
+            margin-top: auto;
+        }
+         header {
+             margin-bottom: 20px;
+         }
+           @media (max-width: 768px) {
+            .container {
+                padding: 60px;
+            }
+            .upload-card {
+                padding: 60px;
+                 max-width: 2000%;
+            }
+             .result-input {
+                 width: calc(100% - 50px);
+             }
+        }
     </style>
 </head>
 <body>
     <header class="bg-gray-800 text-white py-4">
         <div class="container mx-auto px-4 text-center">
-            <h1 class="text-2xl font-bold">WANZOFC</h1>
-           <p class="text-sm mt-1">WANZOFC TECH HOSTING</p>
+            <p class="text-2xl font-bold">WANZOFC</p>
+           <p class="text-sm mt-1"></p>
         </div>
     </header>
     <div id="skeleton-container" class="container" data-aos="fade-up" data-aos-duration="1000" style="display: none">
@@ -115,42 +160,38 @@
         </div>
     </div>
     <div class="container" data-aos="fade-up" data-aos-duration="1000">
-        <div class="row justify-content-center">
-            <div class="col-md-6 animate__animated animate__fadeIn">
-                <div class="upload-card bg-white shadow-md rounded-lg p-5">
-                    <h2 class="text-center text-2xl font-bold mb-5">telegraph by wanzofc</h2>
-                    <p class="text-center text-gray-600 mb-4">unggah gambar untuk mendapatkan tautan langsung!</p>
-                    <div id="upload-progress" class="progress mb-3" style="display: none;">
-                        <div class="progress-bar bg-blue-500 text-white text-center" role="progressbar" style="width: 0%;"
-                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                    </div>
-                   <div class="text-center">
-                        <img id="image-preview" class="mb-3">
-                   </div>
-                    <form id="upload-form" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <div class="relative border-dashed border-2 border-gray-400 rounded-md p-5 text-center cursor-pointer hover:bg-gray-100 transition duration-300">
-                                 <label for="image-upload" class="cursor-pointer">
+            <div class="upload-card bg-white shadow-md rounded-lg p-5">
+                <h2 class="text-center text-2xl font-bold mb-5">telegraph by wanzofc</h2>
+                <p class="text-center text-gray-600 mb-4">unggah gambar untuk mendapatkan tautan langsung!</p>
+                <div id="upload-progress" class="progress mb-3" style="display: none;">
+                    <div class="progress-bar bg-blue-500 text-white text-center" role="progressbar" style="width: 0%;"
+                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+                <div class="text-center">
+                    <img id="image-preview" class="mb-3">
+                </div>
+                <form id="upload-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <div class="relative border-dashed border-2 border-gray-400 rounded-md p-5 text-center cursor-pointer hover:bg-gray-100 transition duration-300">
+                                <label for="image-upload" class="cursor-pointer">
                                     <i class="fas fa-cloud-upload-alt fa-3x text-gray-500 mb-3"></i>
-                                     <p class="text-gray-600">Drag and drop gambar atau klik disini untuk upload</p>
+                                    <p class="text-gray-600">Drag and drop gambar atau klik disini untuk upload</p>
                                 </label>
-                                <input type="file" class="form-control-file border-gray-300 rounded-md px-2 py-1 absolute inset-0 opacity-0 cursor-pointer w-full h-full" id="image-upload" name="image" accept="image/*" required>
-                            </div>
+                            <input type="file" class="form-control-file border-gray-300 rounded-md px-2 py-1 absolute inset-0 opacity-0 cursor-pointer w-full h-full" id="image-upload" name="image" accept="image/*" required>
                         </div>
-                        <button type="submit"
-                            class="btn btn-primary btn-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mt-4">
-                            <i class="fas fa-upload mr-2"></i> upload
-                        </button>
-                    </form>
-                    <div class="result-area" id="result-area">
-                        <input type="text" class="result-input" id="result-link-input" readonly>
-                        <button class="btn btn-secondary" id="copy-button">
-                            <i class="fas fa-copy"></i> copy
-                        </button>
                     </div>
+                    <button type="submit"
+                        class="btn btn-primary btn-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mt-4">
+                        <i class="fas fa-upload mr-2"></i> upload
+                    </button>
+                </form>
+                <div class="result-area" id="result-area">
+                    <input type="text" class="result-input" id="result-link-input" readonly>
+                    <button class="btn btn-secondary" id="copy-button">
+                        <i class="fas fa-copy"></i> copy
+                    </button>
                 </div>
             </div>
-        </div>
     </div>
     <footer class="bg-gray-800 text-white py-2 mt-8">
         <div class="container mx-auto px-4 text-center">
@@ -276,11 +317,9 @@
                  progressBarTween.pause(0);
                  progressDiv.style.display = 'none';
                  skeletonContainer.style.display = 'none';
-                 mainContainer.style.display = 'block';
+                 mainContainer.style.display = 'flex';
              }
-
          });
-
          copyButton.addEventListener('click', () => {
              resultLinkInput.select();
              document.execCommand('copy');
