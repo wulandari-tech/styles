@@ -24,15 +24,16 @@ app.post('/upload', upload.single('image'), async (req, res) => {
         }
 
         const fileBuffer = req.file.buffer;
-        const fileName = req.file.originalname || 'image.jpg';
+        const originalFileName = req.file.originalname || 'image.jpg';
+        const customFileName = 'wanz.jpg'; // Nama file custom
         const formData = new FormData();
-        formData.append('images', fileBuffer, fileName);
+        formData.append('images', fileBuffer, originalFileName); // Gunakan nama asli saat upload
 
         const uploadURL = 'https://telegraph.zorner.men/upload';
 
         const response = await fetch(uploadURL, {
             method: 'POST',
-            body: formData, // Kirim formData sebagai body
+            body: formData,
         });
 
         if (!response.ok) {
@@ -42,16 +43,26 @@ app.post('/upload', upload.single('image'), async (req, res) => {
             } catch (jsonError) {
                 errorBody = await response.text();
             }
-
-
-             const errorMessage = `Upload gagal dengan status ${response.status}: ${errorBody}`;
-             console.error("Upload gagal dengan status:", response.status, "dan pesan:", errorBody);
-             return res.status(response.status).json({ error: errorMessage });
-           
+            const errorMessage = `Upload gagal dengan status ${response.status}: ${errorBody}`;
+            console.error("Upload gagal dengan status:", response.status, "dan pesan:", errorBody);
+            return res.status(response.status).json({ error: errorMessage });
         }
 
         const result = await response.json();
-        res.json(result);
+
+        // Proses hasil dari Telegraph untuk mengganti nama file
+        if (result && result.src) {
+            const originalUrl = result.src;
+             // Mendapatkan base URL (sampai slash terakhir)
+            const baseURL = originalUrl.substring(0, originalUrl.lastIndexOf('/') + 1);
+
+            const customUrl = `${baseURL}${customFileName}`;
+
+            // Mengembalikan response dengan URL custom
+            res.json({ ...result, src: customUrl });
+        } else {
+             res.json(result); // Jika tidak ada src di response, kirim aslinya
+        }
 
     } catch (error) {
         console.error("Error saat mengunggah:", error);
