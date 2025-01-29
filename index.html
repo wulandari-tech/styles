@@ -213,8 +213,19 @@
         const skeletonContainer = document.getElementById('skeleton-container')
         const mainContainer = document.querySelector('.container:not(#skeleton-container)')
         const imagePreview = document.getElementById('image-preview');
+         const clipboard = new ClipboardJS(copyButton, {
+            target: () => {
+              return resultLinkInput;
+            }
+         });
 
-         const progressBarTween = gsap.to(progressBar, {
+         clipboard.on('success', () => {
+              Swal.fire({
+              icon: 'success',
+                title: 'Link Copied!'
+              })
+         })
+        const progressBarTween = gsap.to(progressBar, {
         duration: 1,
         width: '100%',
         ease: 'power2.out',
@@ -276,14 +287,7 @@
 
         });
 
-      copyButton.addEventListener('click', () => {
-          resultLinkInput.select();
-           document.execCommand('copy');
-         Swal.fire({
-             icon: 'success',
-              title: 'Link Copied!'
-           })
-      })
+
 
       imageInput.addEventListener('change', function (event) {
         const file = event.target.files[0];
