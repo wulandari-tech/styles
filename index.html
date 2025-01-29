@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,9 +63,26 @@
             border-radius: 4px;
         }
 
-        .progress-bar {
+       .progress-bar-container {
+             width: 100%;
+             height: 10px;
+             background-color: #f0f0f0;
+             border-radius: 5px;
+             margin-bottom: 10px;
+             overflow: hidden;
+            display: none;
+       }
+       .progress-bar {
+             height: 100%;
+             background-color: #4caf50;
+             width: 0%;
+             border-radius: 5px;
+             text-align: center;
+             color: white;
+             line-height: 10px;
             transition: width 0.3s ease;
-        }
+       }
+
 
         .skeleton-loader {
             background-color: #f2f2f2;
@@ -163,10 +179,9 @@
             <div class="upload-card bg-white shadow-md rounded-lg p-5">
                 <h2 class="text-center text-2xl font-bold mb-5">telegraph by wanzofc</h2>
                 <p class="text-center text-gray-600 mb-4">unggah gambar untuk mendapatkan tautan langsung!</p>
-                <div id="upload-progress" class="progress mb-3" style="display: none;">
-                    <div class="progress-bar bg-blue-500 text-white text-center" role="progressbar" style="width: 0%;"
-                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                </div>
+                <div id="upload-progress" class="progress-bar-container">
+                     <div class="progress-bar">0%</div>
+                 </div>
                 <div class="text-center">
                     <img id="image-preview" class="mb-3">
                 </div>
@@ -175,7 +190,7 @@
                         <div class="relative border-dashed border-2 border-gray-400 rounded-md p-5 text-center cursor-pointer hover:bg-gray-100 transition duration-300">
                                 <label for="image-upload" class="cursor-pointer">
                                     <i class="fas fa-cloud-upload-alt fa-3x text-gray-500 mb-3"></i>
-                                    <p class="text-gray-600">Drag and drop gambar atau klik disini untuk upload</p>
+                                    <p class="text-gray-600">upload</p>
                                 </label>
                             <input type="file" class="form-control-file border-gray-300 rounded-md px-2 py-1 absolute inset-0 opacity-0 cursor-pointer w-full h-full" id="image-upload" name="image" accept="image/*" required>
                         </div>
@@ -255,8 +270,8 @@
          const imageInput = document.getElementById('image-upload');
          const resultDiv = document.getElementById('result-area');
          const resultLinkInput = document.getElementById('result-link-input');
-         const progressDiv = document.getElementById('upload-progress');
-         const progressBar = progressDiv.querySelector('.progress-bar');
+         const progressContainer = document.getElementById('upload-progress'); // Mengganti ini dari div progress ke div yang baru
+         const progressBar = progressContainer.querySelector('.progress-bar'); // Memperbaiki selector
          const copyButton = document.getElementById('copy-button');
          const skeletonContainer = document.getElementById('skeleton-container');
          const mainContainer = document.querySelector('.container:not(#skeleton-container)');
@@ -273,15 +288,14 @@
                  progressBar.textContent = "100%"
              }
          });
-
          form.addEventListener('submit', async (e) => {
              e.preventDefault();
              const formData = new FormData(form);
              skeletonContainer.style.display = 'block';
              mainContainer.style.display = 'none';
-             progressDiv.style.display = 'block';
+             progressContainer.style.display = 'block';
              resultDiv.style.display = 'none';
-             progressBar.style.width = '0%';
+              progressBar.style.width = '0%';
              progressBarTween.play(0);
              try {
                  const response = await fetch('/upload', {
@@ -315,7 +329,7 @@
                  resultDiv.style.display = 'none';
              } finally {
                  progressBarTween.pause(0);
-                 progressDiv.style.display = 'none';
+                 progressContainer.style.display = 'none';
                  skeletonContainer.style.display = 'none';
                  mainContainer.style.display = 'flex';
              }
