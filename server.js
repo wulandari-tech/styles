@@ -6,6 +6,7 @@ const path = require('path');
 
 const app = express();
 const PORT = 3000;
+const WEB_URL = 'https://wanzofc.xyz'; // Ganti dengan URL web Anda
 
 // Konfigurasi Multer untuk meng-handle file upload
 const storage = multer.memoryStorage();
@@ -14,8 +15,8 @@ const upload = multer({
     limits: { fileSize: 20 * 1024 * 1024 } // Batas ukuran file 20 MB
 });
 
-// Middleware untuk melayani file statis dari folder 'public'
-app.use(express.static(path.join(__dirname)));
+
+let uploadedImageBuffer = null; // Untuk menyimpan buffer gambar yang diunggah
 
 app.post('/upload', upload.single('image'), async (req, res) => {
     try {
@@ -23,11 +24,12 @@ app.post('/upload', upload.single('image'), async (req, res) => {
             return res.status(400).json({ error: 'Tidak ada file yang diunggah.' });
         }
 
-        const fileBuffer = req.file.buffer;
+        uploadedImageBuffer = req.file.buffer;
+
         const originalFileName = req.file.originalname || 'image.jpg';
-        const customFileName = 'wanz.jpg'; // Nama file custom
         const formData = new FormData();
-        formData.append('images', fileBuffer, originalFileName); // Gunakan nama asli saat upload
+        formData.append('images', req.file.buffer, originalFileName);
+
 
         const uploadURL = 'https://telegraph.zorner.men/upload';
 
@@ -37,7 +39,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
         });
 
         if (!response.ok) {
-            let errorBody;
+             let errorBody;
             try {
                 errorBody = await response.json();
             } catch (jsonError) {
@@ -50,18 +52,11 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
         const result = await response.json();
 
-        // Proses hasil dari Telegraph untuk mengganti nama file
-        if (result && result.src) {
-            const originalUrl = result.src;
-             // Mendapatkan base URL (sampai slash terakhir)
-            const baseURL = originalUrl.substring(0, originalUrl.lastIndexOf('/') + 1);
-
-            const customUrl = `${baseURL}${customFileName}`;
-
-            // Mengembalikan response dengan URL custom
-            res.json({ ...result, src: customUrl });
+         if (result && result.src) {
+            const customUrl = `${WEB_URL}/wanzofc.jpg`;
+            res.json({ ...result, links: [customUrl] });
         } else {
-             res.json(result); // Jika tidak ada src di response, kirim aslinya
+             res.json({ ...result, links: [] });
         }
 
     } catch (error) {
@@ -70,9 +65,23 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     }
 });
 
+
+
+app.get('/wanzofc.jpg', (req, res) => {
+    if (uploadedImageBuffer) {
+          res.set('Content-Type', 'image/jpeg'); // Sesuaikan dengan tipe gambar
+        res.send(uploadedImageBuffer);
+    } else {
+        res.status(404).send('Gambar belum diunggah.');
+    }
+});
+
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+
 
 app.listen(PORT, () => {
     console.log(`Server berjalan di http://localhost:${PORT}`);
