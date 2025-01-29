@@ -3,231 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>telegraph</title>
+    <title>Telegraph</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-g8q5g5m9wX+c16R5s2jP7z4q/I2K09pB6E5Zt2a9V3/f295/q7U6e9k4Q7i/eT/p9t/7z1g5Z8o7+7s5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.1/progressbar.min.css" />
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-      <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-      <link href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.css" rel="stylesheet" />
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.min.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/perfect-scrollbar/1.5.5/css/perfect-scrollbar.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.css" />
     <style>
-        body {background-color: #f8f9fa;transition: background-color 0.3s ease, color 0.3s ease;overflow-x: hidden;background-image: url('https://source.unsplash.com/1920x1080/?nature,landscape');background-size: cover;background-position: center;}
-        body.dark-mode {background-color: #222;color: #fff;}
-          body.dark-mode .upload-card{background-color: #333;color: #fff;}
-         body.dark-mode .btn-primary{background-color: #007bff;color: white;}
-        body.dark-mode .btn-primary:hover {background-color: #0056b3;}
-        .container {margin-top: 50px;position: relative;}
-        .upload-card {background-color: #fff;padding: 20px;border-radius: 8px;box-shadow: 0 0 10px rgba(0,0,0,0.1);transition: background-color 0.3s ease, color 0.3s ease;}
-        .upload-card h2 {margin-bottom: 20px;}
-        .upload-card .result-link{margin-top: 20px;display: block;}
-         .theme-toggle {position: absolute;top: 10px;right: 10px;cursor: pointer;font-size: 24px;z-index: 1000;}
-         .ri-moon-line{display: none;}
-         body.dark-mode .ri-sun-line{display: none;}
-         body.dark-mode .ri-moon-line{display: block;}
-        #particles-js {position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: -1;transition: opacity 0.3s ease;pointer-events: none;}
-        body.dark-mode #particles-js{opacity: 0.8;}
-        .preview-container{margin-top: 20px;}
-         .preview-image {max-width: 100%;max-height: 200px;display: none;margin-bottom: 10px;}
-         .drag-drop-area {border: 2px dashed #ccc;padding: 20px;text-align: center;cursor: pointer;margin-bottom: 10px;border-radius: 8px;}
-        .drag-drop-area.dragover {border-color: #007bff;background-color: #f0f7ff;}
-        .upload-card .copy-button{margin-top: 10px;display: inline-block;background-color: #f0f0f0;border: 1px solid #ccc;padding: 5px 10px;cursor: pointer;border-radius: 5px;user-select: none;}
-         .upload-card .copy-button:hover{background-color: #e0e0e0;}
-         #image-viewer{width: 100%;margin-top: 20px;display: none;overflow: hidden;}
-         .ps{overflow: auto !important;}
-         #cropper-container{display: none;margin-top: 20px;overflow: hidden;}
-         #cropper-container img {max-width: 100%;max-height: 400px;}
-         #image-editor-controls{margin-top: 10px;text-align: center;display: none;}
-         #gallery {margin-top: 20px;display: none;}
-        .gallery-item {display: inline-block;margin: 5px;cursor: pointer;border: 1px solid #ccc;border-radius: 5px;overflow: hidden;}
-         .gallery-item img {max-width: 100px;max-height: 100px;display: block;}
-       #canvas-container{margin-top: 20px;display: none;}
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .upload-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-card h2 {
+            margin-bottom: 20px;
+        }
+
+        .upload-card .result-link {
+            margin-top: 20px;
+            display: block;
+        }
+        .progress-bar{
+          transition: width 0.3s ease
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css"/>
+     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 </head>
 <body>
-    <!-- Tombol tema dipindahkan agar fungsi onclick berfungsi -->
-    <i class="theme-toggle ri-sun-line" id="theme-toggle-sun"></i>
-    <i class="theme-toggle ri-moon-line" id="theme-toggle-moon"></i>
-   <div id="particles-js"></div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="upload-card">
-                    <h2 class="text-center">telegraph by wanzofc</h2>
-                      <div class="drag-drop-area" id="drag-drop-area">
-                         <i class="ri-upload-2-line" style="font-size: 30px"></i> <br>
-                        Drag and drop file here or click to select
-                   </div>
-                     <div id="upload-progress" class="progress mb-3" style="display: none;">
-                      <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+    <div class="container" data-aos="fade-up" data-aos-duration="1000">
+        <div class="row justify-center">
+            <div class="col-md-6 animate__animated animate__fadeIn">
+                <div class="upload-card bg-white shadow-md rounded-lg p-5">
+                    <h2 class="text-center text-2xl font-bold mb-5">telegraph by wanzofc</h2>
+                    <div id="upload-progress" class="progress mb-3" style="display: none;">
+                        <div class="progress-bar bg-blue-500 text-white text-center" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                            aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
-                     <form id="upload-form" enctype="multipart/form-data">
+                    <form id="upload-form" enctype="multipart/form-data">
                         <div class="form-group">
-                              <input type="file" class="form-control-file" id="image-upload" name="image" accept="image/*" multiple style="display: none" required>
+                            <input type="file" class="form-control-file border-gray-300 rounded-md px-2 py-1" id="image-upload" name="image"
+                                accept="image/*" required>
                         </div>
-                        <div class="form-group preview-container">
-                             <img id="preview-image" src="#" alt="Preview" class="preview-image"/>
-                         </div>
-                             <div id="cropper-container">
-                               <img id="cropper-image" src="" alt="Crop"/>
-                            </div>
-                           <div id="image-editor-controls" class="d-flex justify-content-center">
-                               <button type="button" class="btn btn-sm btn-secondary mr-2" id="rotate-left"><i class="ri-rotate-line"></i></button>
-                             <button type="button" class="btn btn-sm btn-secondary mr-2" id="rotate-right"><i class="ri-rotate-line ri-flip-horizontal-line"></i></button>
-                            <button type="button" class="btn btn-sm btn-primary mr-2" id="crop-button">Crop</button>
-                           </div>
-                            <div class="form-group">
-                         <label for="custom-name">Custom Name</label>
-                          <input type="text" class="form-control" id="custom-name" placeholder="Enter custom name (optional)" />
-                        </div>
-                           <div class="form-group">
-                           <label for="description">Description</label>
-                           <textarea class="form-control" id="description" placeholder="Enter description (optional)"></textarea>
-                           </div>
-                         <div id="canvas-container">
-                             <canvas id="filter-canvas"></canvas>
-                         </div>
-                            <button type="submit" class="btn btn-primary btn-block">upload</button>
-                         </form>
-                           <div id="upload-result" style="display: none;">
-                         </div>
-                           <div id="image-viewer"></div>
-                       <div id="gallery" style="display: none;"></div>
-                  </div>
-              </div>
-          </div>
+                        <button type="submit" class="btn btn-primary btn-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md">
+                            <i class="fas fa-upload mr-2"></i> Upload
+                        </button>
+                    </form>
+                    <div id="upload-result" style="display: none;">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.7/lottie.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lWQr3gmJm1q1q1zQkG0wxlW5b5EjhcOz91oih7k5E6/yMv6mby7im5iE56gZ3ZJk7u7yvD1cE7f1r/q1/7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" integrity="sha512-f4qP331j796rP76jQv/r5gCgR+X+5lX1G+G9cQ8O/2YtS5X3eJ9f4s9pQy2w7U/8/1Q1R+f/Z/3I+s5v6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.1/progressbar.min.js"></script>
-    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/4.0.2/vuex.global.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/2.29.3/date_fns.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/validator/13.7.0/validator.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/textillate/0.4.0/jquery.textillate.min.js"></script>
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/lettering.js/0.7.0/jquery.lettering.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-         <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/2.8.3/eruda.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js"></script>
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/store.js/2.0.12/store.legacy.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.17.550/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/10.2.0/mocha.min.js"></script>
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.3.7/chai.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-eCaW2Gj0nGFoF4xL+77nAhb793Lh3XF+f14G6+193gI=" crossorigin="" />
-     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZs/nny7nJjZ/ZpTfcznLuBd+nCs=" crossorigin=""></script>
-    <script src="https://cdn.jsdelivr.net/npm/ol@v7.3.0/dist/ol.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-         <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@beta/dist/locomotive-scroll.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/23.6.0/i18next.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/immer@9.0.21/dist/immer.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/final-form@4.20.1/dist/final-form.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/unform@2.1.6/dist/unform.min.js"></script>
+    <script src="https://testing-library.com/react-testing-library/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@testing-library/jest-dom@6.1.4/dist/jest-dom.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cypress/13.5.0/cypress.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/playwright/1.40.0/playwright.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/recharts@2.9.0/umd/Recharts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@nivo/core@0.84.0/dist/nivo-core.umd.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/classnames@2.5.1/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.20.0/umd/react-router-dom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/redux@4.2.1/dist/redux.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuex@4.1.0/dist/vuex.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/formik@2.4.5/dist/formik.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-hook-form/7.48.2/react-hook-form.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/yup@1.3.2/dist/yup.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/joi/17.11.0/joi.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/styled-components/6.1.1/styled-components.min.js"></script>
+    <script src="https://emotion.sh/umd/emotion.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script>
-      //Pindahkan fungsi toggleTheme ke sini agar elemen tombol tema dapat diakses
-      function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-        new Notify({
-            status: 'success',
-            title: 'Thema Mode',
-            text: document.body.classList.contains('dark-mode') ? 'Dark mode aktif' : 'Light mode aktif',
-            effect: 'fade',
-            autotimeout: 3000,
-            showIcon: true,
-            customIcon: document.body.classList.contains('dark-mode') ? '<i class="ri-moon-line"></i>' : '<i class="ri-sun-line"></i>',
-        }).show();
-      }
-
-      // Tambahkan event listener pada tombol tema
-      document.getElementById('theme-toggle-sun').addEventListener('click', toggleTheme);
-      document.getElementById('theme-toggle-moon').addEventListener('click', toggleTheme);
-          particlesJS("particles-js", {"particles": {"number": {"value": 80,"density": {"enable": true,"value_area": 800}},"color": {"value": "#ffffff"},"shape": {"type": "circle","stroke": {"width": 0,"color": "#000000"},"polygon": {"nb_sides": 5},"image": {"src": "img/github.svg","width": 100,"height": 100}},"opacity": {"value": 0.5,"random": false,"anim": {"enable": false,"speed": 1,"opacity_min": 0.1,"sync": false}},"size": {"value": 3,"random": true,"anim": {"enable": false,"speed": 40,"size_min": 0.1,"sync": false}},"line_linked": {"enable": true,"distance": 150,"color": "#ffffff","opacity": 0.4,"width": 1},"move": {"enable": true,"speed": 6,"direction": "none","random": false,"straight": false,"out_mode": "out","bounce": false,"attract": {"enable": false,"rotateX": 600,"rotateY": 1200}}},"interactivity": {"detect_on": "canvas","events": {"onhover": {"enable": true,"mode": "repulse"},"onclick": {"enable": true,"mode": "push"},"resize": true},"modes": {"grab": {"distance": 400,"line_linked": {"opacity": 1}},"bubble": {"distance": 400,"size": 40,"duration": 2,"opacity": 8,"speed": 3},"repulse": {"distance": 200,"duration": 0.4},"push": {"particles_nb": 4},"remove": {"particles_nb": 2}}},"retina_detect": true});
-        const form = document.getElementById('upload-form');
+         const form = document.getElementById('upload-form');
         const imageInput = document.getElementById('image-upload');
-         const previewImage = document.getElementById('preview-image');
         const resultDiv = document.getElementById('upload-result');
         const progressDiv = document.getElementById('upload-progress');
         const progressBar = progressDiv.querySelector('.progress-bar');
-        const dragDropArea = document.getElementById('drag-drop-area');
-         const customNameInput = document.getElementById('custom-name');
-          const descriptionInput = document.getElementById('description');
-          const imageViewer = document.getElementById('image-viewer');
-          const galleryDiv = document.getElementById('gallery');
-            const cropperContainer = document.getElementById('cropper-container');
-            const cropperImage = document.getElementById('cropper-image');
-            const rotateLeftButton = document.getElementById('rotate-left');
-           const rotateRightButton = document.getElementById('rotate-right');
-           const cropButton = document.getElementById('crop-button');
-           const imageEditorControls = document.getElementById('image-editor-controls');
-             const canvasContainer = document.getElementById('canvas-container');
-            const filterCanvas = document.getElementById('filter-canvas');
-              let cropper;
-              let gallery = [];
-                let activeImage;
+      const progressBarTween = gsap.to(progressBar, {
+        duration: 1, 
+        width: '100%',
+        ease: 'power2.out',
+        paused: true,
+        onUpdate: function(){
+          progressBar.textContent = `${Math.round(this.progress() * 100)}%`
+        },
+        onComplete: function(){
+         progressBar.textContent = "100%"
+        }
+      });
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            progressDiv.style.display = 'block';
+           progressBar.style.width = '0%';
+          progressBarTween.play(0);
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+                if (!response.ok) {
+                    throw new Error(`Upload Gagal: ${response.status} `)
+                }
+                const data = await response.json();
+                if (data && data.links && data.links.length > 0) {
+                 Swal.fire({
+                    icon: 'success',
+                    title: i18next.t('upload_success'),
+                   html: `<a href="${data.links[0]}" target="_blank" class="result-link">${data.links[0]}</a>`,
+                   });
+                 resultDiv.style.display = 'none';
+                } else {
+                   Swal.fire({
+                      icon: 'error',
+                      title: i18next.t('upload_fail')
+                    })
+                  resultDiv.style.display = 'none';
+                }
+            } catch (error) {
+              Swal.fire({
+                icon: 'error',
+                 title: 'Error!',
+                  text: i18next.t('upload_error') + error.message,
+                  })
+                resultDiv.style.display = 'none';
+            } finally {
+              progressBarTween.pause(0);
+                progressDiv.style.display = 'none';
+            }
 
-          let viewer;
-          let fabricCanvas;
-          let activeFilter = null;
+        });
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const filesize = file.size / 1024;
+                if (filesize > 200480) {
+                    alert("Ukuran File terlalu Besar, Max 200 MB!");
+                    imageInput.value = "";
+                }
+            }
+        });
 
-        function initFabricCanvas() {fabricCanvas = new fabric.Canvas(filterCanvas, {width: 400,height: 300});}
-        function applyFilter(filterType) {if (fabricCanvas && activeImage) {activeFilter = filterType;const imageObject = activeImage;const filterObject = new fabric.Image.filters[filterType]();imageObject.filters.push(filterObject);imageObject.applyFilters();fabricCanvas.renderAll();}}
-       function createGalleryItem(imageUrl) {const galleryItem = document.createElement('div');galleryItem.classList.add('gallery-item');const img = document.createElement('img');img.src = imageUrl;img.alt = 'uploaded image';galleryItem.appendChild(img);galleryItem.addEventListener('click', function() {openImageViewer(imageUrl);});return galleryItem}
-           function updateGallery() {galleryDiv.innerHTML = '';gallery.forEach(imageUrl => {const galleryItem = createGalleryItem(imageUrl);galleryDiv.appendChild(galleryItem);});galleryDiv.style.display = gallery.length > 0 ? 'flex' : 'none';}
-         function showPreview(file) {if (file) {previewImage.style.display = 'block';const reader = new FileReader();reader.onload = function(e) {previewImage.src = e.target.result;cropperImage.src = e.target.result;cropperContainer.style.display = 'block';imageEditorControls.style.display = 'flex';initCropper();};reader.readAsDataURL(file);}else{previewImage.style.display = 'none';previewImage.src = '';cropperContainer.style.display = 'none';imageEditorControls.style.display = 'none';if(cropper){cropper.destroy();cropper = null;}if (fabricCanvas) {fabricCanvas.clear();}}}
-       function openImageViewer(url) {imageViewer.style.display = 'block';imageViewer.innerHTML = `<img src="${url}" alt="Uploaded Image" style="max-width: 100%;"/>`;viewer = new Viewer(imageViewer, {toolbar: {zoomIn: 1,zoomOut: 1,oneToOne: 1,reset: 1,prev: 1,play: 0,next: 1,rotateLeft: 1,rotateRight: 1,flipHorizontal: 1,flipVertical: 1,},});viewer.show();}
-       function copyToClipboard(text, element) {navigator.clipboard.writeText(text).then(() => {new Notify({status: 'success',title: 'Copy Link',text: 'Link Berhasil di Copy',effect: 'fade',autotimeout: 2000,}).show();}, (error) => {new Notify({status: 'error',title: 'Copy Link',text: 'Gagal Copy Link',effect: 'fade',autotimeout: 2000,}).show();});}
-        function initCropper() {if(cropper){cropper.destroy();cropper = null}cropper = new Cropper(cropperImage, {aspectRatio: NaN,viewMode: 1});}
-        function getCroppedCanvas(){if(cropper) {return cropper.getCroppedCanvas({});}return null;}
-        function rotateImage(direction){if(cropper){cropper.rotate(direction === 'left' ? -90 : 90)}}
-        rotateLeftButton.addEventListener('click', () => rotateImage('left'));
-        rotateRightButton.addEventListener('click', () => rotateImage('right'));
-        cropButton.addEventListener('click', function() {const canvas = getCroppedCanvas();if (canvas) {previewImage.src = canvas.toDataURL();if (fabricCanvas) {fabricCanvas.clear();fabric.Image.fromURL(previewImage.src, function(img) {activeImage = img;fabricCanvas.add(img);fabricCanvas.centerObject(img);fabricCanvas.renderAll();});canvasContainer.style.display = 'block';}}else {alert('Tidak ada gambar untuk di crop!')}});
-        dragDropArea.addEventListener('dragover', function(e) {e.preventDefault();dragDropArea.classList.add('dragover');});
-        dragDropArea.addEventListener('dragleave', function(e) {e.preventDefault();dragDropArea.classList.remove('dragover');});
-        dragDropArea.addEventListener('drop', function(e) {e.preventDefault();dragDropArea.classList.remove('dragover');const files = e.dataTransfer.files;if (files.length > 0) {imageInput.files = files;showPreview(files[0]);}});
-        dragDropArea.addEventListener('click', function(e) {imageInput.click();});
-       imageInput.addEventListener('change', function(event) {const file = event.target.files[0];showPreview(file);if (file) {const filesize = file.size / 1024;if (filesize > 200480) {alert("Ukuran File terlalu Besar, Max 200 MB!");imageInput.value = "";showPreview()}}});
-       form.addEventListener('submit', async (e) => {e.preventDefault();const formData = new FormData(form);const customName = customNameInput.value;const description = descriptionInput.value;formData.append('custom_name', customName);formData.append('description', description);let croppedCanvas = getCroppedCanvas();if (croppedCanvas){let dataURL = croppedCanvas.toDataURL('image/png');formData.append('croppedImage', dataURL)}progressDiv.style.display = 'block';progressBar.style.width = '0%';progressBar.textContent = '0%';try {const response = await fetch('/upload', {method: 'POST',body: formData,});if (!response.ok) {let errorMessage = `Upload Gagal: ${response.status} `;try {const errorData = await response.json();if(errorData && errorData.message){errorMessage += ` - ${errorData.message}`}} catch (parseError) {console.error("Gagal memparsing error JSON dari server", parseError)}throw new Error(errorMessage)}const data = await response.json();if (data && data.links && data.links.length > 0) {let resultHTML = '';data.links.forEach((link, index) => {resultHTML += `<div class="alert alert-success text-center" role="alert">UPLOAD BERHASIL:<div class="d-flex align-items-center justify-content-center"><a href="${link}" target="_blank" class="result-link">${link}</a><span class="copy-button" onclick="copyToClipboard('${link}', this)"><i class="ri-file-copy-line"></i></span></div><button class="btn btn-link" onclick="openImageViewer('${link}')">Lihat Gambar</button></div>`;});resultDiv.innerHTML = resultHTML;resultDiv.style.display = 'block';gallery.push(...data.links);updateGallery();}else{resultDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">Upload Gagal, Tidak Ada Link yang Dikembalikan!</div>`;resultDiv.style.display = 'block';}} catch (error) {resultDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">Error saat upload: ${error.message}</div>`;resultDiv.style.display = 'block';}finally{progressDiv.style.display = 'none';}};
-          const observer = lozad();observer.observe();gsap.registerPlugin(ScrollTrigger);
-          const scroll = new LocomotiveScroll({el: document.querySelector('[data-scroll-container]'),smooth: true,});scroll.on('scroll', ScrollTrigger.update);
-        ScrollTrigger.scrollerProxy('[data-scroll-container]', {scrollTop(value) {return arguments.length ? scroll.scrollTo(value, 0, 0) : scroll.scroll.instance.scroll.y;},getBoundingClientRect() {return {left: 0,top: 0,width: window.innerWidth,height: window.innerHeight,};},pinType: document.querySelector('[data-scroll-container]').style.transform ? 'transform' : 'fixed',});ScrollTrigger.addEventListener('refresh', () => scroll.update());ScrollTrigger.refresh();initFabricCanvas();
-   </script>
+
+       AOS.init();
+
+
+       i18next.init({
+            lng: 'en',
+             resources: {
+              en: {
+              translation: {
+               upload_success: 'UPLOAD SUCCESSFUL',
+               upload_fail: 'Upload Failed, No Link Returned!',
+               upload_error: 'Error during upload:'
+               }
+              }
+             }
+        });
+    </script>
 </body>
+
 </html>
