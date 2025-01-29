@@ -1,91 +1,58 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const fetch = require('node-fetch');
-const FormData = require('form-data');
 const multer = require('multer');
+const FormData = require('form-data');
+const fetch = require('node-fetch');
+const path = require('path');
+
 const app = express();
-const port = 3000;
+const PORT = 8080;
 
-// Konfigurasi untuk membaca file di folder yang sama dengan file JS
-// __dirname akan merepresentasikan direktori dimana file js ini dijalankan
-const indexPath = path.join(__dirname, 'index.html');
-console.log('Path to index.html:', indexPath); // Untuk debug path
-
-// Konfigurasi multer untuk menyimpan file di memori
-const upload = multer({
-    storage: multer.memoryStorage()
+// Konfigurasi Multer untuk meng-handle file upload
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage,
+    limits: { fileSize: 20 * 1024 * 1024 } // Batas ukuran file 20 MB
 });
 
-// Endpoint untuk menampilkan halaman index.html
-app.get('/', (req, res) => {
-    console.log('Request received for /');
-    fs.readFile(indexPath, 'utf8', (err, html) => {
-        if (err) {
-            console.error('Failed to read index.html:', err);
-            return res.status(500).send(`
-                <h1>Internal Server Error</h1>
-                <p>Error: Could not read index.html. Please check if the file exists at the correct location.</p>
-                <p>Details: ${err.message}</p>
-            `);
-        }
-        console.log('Successfully read index.html');
-        res.send(html);
-    });
-});
+// Middleware untuk melayani file statis dari folder 'public'
+app.use(express.static(path.join(__dirname)));
 
-// Endpoint untuk meng-upload file ke Telegraph
+
 app.post('/upload', upload.single('image'), async (req, res) => {
     try {
         if (!req.file) {
-            return res.status(400).send(`
-            <h1>Bad Request</h1>
-            <p>Error: No file uploaded. Please choose a file to upload.</p>
-          `);
+            return res.status(400).json({ error: 'Tidak ada file yang diunggah.' });
         }
 
         const fileBuffer = req.file.buffer;
-        const originalFileName = req.file.originalname;
+        const fileName = req.file.originalname || 'image.jpg'; // Use original file name or default name
         const formData = new FormData();
-        formData.append('images', fileBuffer, originalFileName);
+        formData.append('images', fileBuffer, fileName);
 
-        const response = await fetch('https://telegraph.zorner.men/upload', {
+       const response = await fetch('https://telegraph.zorner.men/upload', {
             method: 'POST',
             headers: {
-                ...formData.getHeaders(),
-            },
-            body: formData,
+                 ...formData.getHeaders(),
+             },
+           body: formData,
         });
 
-
-        if (!response.ok) {
-           const responseText = await response.text()
-           throw new Error(`Upload failed with status ${response.status} - ${responseText}`);
-        }
+      if (!response.ok) {
+          throw new Error('Upload gagal dengan status ' + response.status);
+     }
 
         const result = await response.json();
-        if (!result.links || result.links.length === 0) {
-             throw new Error(`Invalid response from Telegraph API. No links found.`);
-        }
-
-        const telegraphLink = result.links[0];
-
-        res.send(`
-            <h1>Upload Success</h1>
-            <p>Link: <a href="${telegraphLink}">${telegraphLink}</a></p>
-            <button onclick="window.location.href='/'">Back</button>
-        `);
-
+        res.json(result);
     } catch (error) {
-        console.error('Error uploading file:', error);
-         res.status(500).send(`
-            <h1>Internal Server Error</h1>
-            <p>Error during file upload: ${error.message}</p>
-            `);
+        console.error("Error saat mengunggah:", error);
+        res.status(500).json({ error: 'Error saat mengunggah file: ' + error.message });
     }
 });
 
-// Jalankan server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+
+app.get('/', (req,res) =>{
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.listen(PORT, () => {
+    console.log(`Server berjalan di http://localhost:${PORT}`);
 });
