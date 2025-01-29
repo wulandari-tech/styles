@@ -28,16 +28,25 @@ app.post('/upload', upload.single('image'), async (req, res) => {
         const formData = new FormData();
         formData.append('images', fileBuffer, fileName);
 
+        const uploadURL = 'https://telegraph.zorner.men/upload';
 
-        const response = await fetch('https://telegraph.zorner.men/upload', {
+        const response = await fetch(uploadURL, {
             method: 'POST',
             body: formData, // Kirim formData sebagai body
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-             console.error("Upload gagal dengan status:", response.status, "dan pesan:", errorText);
-             return res.status(response.status).json({ error: `Upload gagal dengan status ${response.status}: ${errorText}` });
+            let errorBody;
+            try {
+                errorBody = await response.json();
+            } catch (jsonError) {
+                errorBody = await response.text();
+            }
+
+
+             const errorMessage = `Upload gagal dengan status ${response.status}: ${errorBody}`;
+             console.error("Upload gagal dengan status:", response.status, "dan pesan:", errorBody);
+             return res.status(response.status).json({ error: errorMessage });
            
         }
 
@@ -46,7 +55,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
     } catch (error) {
         console.error("Error saat mengunggah:", error);
-        res.status(500).json({ error: 'Error saat mengunggah file: ' + error.message });
+        res.status(500).json({ error: 'Terjadi kesalahan server saat mengunggah file. Mohon coba lagi nanti.' });
     }
 });
 
