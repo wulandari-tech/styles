@@ -3,6 +3,8 @@ const multer = require('multer');
 const FormData = require('form-data');
 const fetch = require('node-fetch');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 const app = express();
 const PORT = 3000;
@@ -16,7 +18,57 @@ const upload = multer({
 
 // Middleware untuk melayani file statis dari folder 'public'
 app.use(express.static(path.join(__dirname)));
+app.use(express.json()); // Untuk parsing body JSON
 
+// Konfigurasi Swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Image Upload API',
+            version: '1.0.0',
+            description: 'API untuk mengunggah gambar ke Telegraph dengan opsi penggantian nama file.',
+        },
+    },
+    apis: ['./app.js'], // Path ke file yang berisi dokumentasi endpoint
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+/**
+ * @swagger
+ * /upload:
+ *   post:
+ *     summary: Upload gambar dan ganti nama file
+ *     description: Mengunggah gambar ke Telegraph dan mengganti nama file menjadi wanz.jpg
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Berhasil mengunggah gambar dan mendapatkan URL custom
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 src:
+ *                   type: string
+ *                   description: URL gambar custom
+ *       400:
+ *         description: Gagal karena tidak ada file yang diunggah
+ *       500:
+ *         description: Terjadi kesalahan server
+ */
 app.post('/upload', upload.single('image'), async (req, res) => {
     try {
         if (!req.file) {
@@ -70,9 +122,48 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     }
 });
 
+
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Mendapatkan halaman utama
+ *     description: Mengembalikan halaman utama (index.html).
+ *     responses:
+ *       200:
+ *         description: Halaman utama ditampilkan
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ */
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+
+/**
+ * @swagger
+ * /test:
+ *   get:
+ *     summary: Endpoint uji coba
+ *     description: Contoh endpoint GET untuk uji coba.
+ *     responses:
+ *       200:
+ *         description: Berhasil mendapatkan data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Ini adalah endpoint GET untuk uji coba."
+ */
+app.get('/test', (req, res) => {
+    res.json({ message: 'Ini adalah endpoint GET untuk uji coba.' });
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server berjalan di http://localhost:${PORT}`);
