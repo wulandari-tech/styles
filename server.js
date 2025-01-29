@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const path = require('path');
 
 const app = express();
-const PORT = 8080;
+const PORT = 3000;
 
 // Konfigurasi Multer untuk meng-handle file upload
 const storage = multer.memoryStorage();
