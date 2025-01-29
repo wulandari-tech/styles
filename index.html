@@ -27,11 +27,11 @@
 
         .result-area {
             margin-top: 20px;
-            display: none;
+            display: none; 
         }
 
         .result-input {
-            width: calc(100% - 60px);
+            width: calc(100% - 60px); 
             display: inline-block;
             margin-right: 10px;
             border: 1px solid #ddd;
@@ -43,7 +43,7 @@
         }
 
          .skeleton-loader {
-          background-color: #f2f2f2;
+          background-color: #f2f2f2; 
           border-radius: 6px;
           margin-bottom: 10px;
           overflow: hidden;
@@ -120,8 +120,8 @@
                     </div>
                     <form id="upload-form" enctype="multipart/form-data">
                         <div class="form-group">
-                            <input type="file" class="form-control-file border-gray-300 rounded-md px-2 py-1" id="image-upload" name="file"
-                                 required>
+                            <input type="file" class="form-control-file border-gray-300 rounded-md px-2 py-1" id="image-upload" name="image"
+                                accept="image/*" required>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md">
                             <i class="fas fa-upload mr-2"></i> Upload
@@ -184,6 +184,7 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
     <script>
          const form = document.getElementById('upload-form');
         const imageInput = document.getElementById('image-upload');
@@ -206,6 +207,7 @@
          progressBar.textContent = "100%"
         }
       });
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
@@ -224,8 +226,8 @@
                     throw new Error(`Upload Gagal: ${response.status} `)
                 }
                 const data = await response.json();
-                if (data && data.src) {
-                  resultLinkInput.value = data.src;
+                if (data && data.links && data.links.length > 0) {
+                    resultLinkInput.value = data.links[0];
                   resultDiv.style.display = 'flex';
                  Swal.fire({
                     icon: 'success',
@@ -253,6 +255,7 @@
             }
 
         });
+
       copyButton.addEventListener('click', () => {
           resultLinkInput.select();
            document.execCommand('copy');
@@ -261,6 +264,7 @@
               title: 'Link Copied!'
            })
       })
+
         imageInput.addEventListener('change', function (event) {
             const file = event.target.files[0];
             if (file) {
@@ -284,6 +288,7 @@
               }
              }
         });
+
     </script>
 </body>
 </html>
