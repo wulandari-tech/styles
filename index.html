@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegraph Upload</title>
+    <title>telegraph</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -32,7 +32,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="upload-card">
-                    <h2 class="text-center">Telegraph Image Upload</h2>
+                    <h2 class="text-center">telegraph by wanzofc</h2>
                      <div id="upload-progress" class="progress mb-3" style="display: none;">
                       <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
@@ -40,10 +40,9 @@
                         <div class="form-group">
                             <input type="file" class="form-control-file" id="image-upload" name="image" accept="image/*" required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Upload</button>
+                        <button type="submit" class="btn btn-primary btn-block">upload</button>
                     </form>
                      <div id="upload-result" style="display: none;">
-
                     </div>
                 </div>
             </div>
@@ -58,15 +57,12 @@
         const resultDiv = document.getElementById('upload-result');
         const progressDiv = document.getElementById('upload-progress');
         const progressBar = progressDiv.querySelector('.progress-bar');
-
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const formData = new FormData(form);
             progressDiv.style.display = 'block';
             progressBar.style.width = '0%';
             progressBar.textContent = '0%';
-
             try {
                  const response = await fetch('/upload', {
                     method: 'POST',
@@ -76,10 +72,9 @@
                     throw new Error(`Upload Gagal: ${response.status} `)
                 }
                 const data = await response.json();
-
                 if (data && data.links && data.links.length > 0) {
                    resultDiv.innerHTML = `<div class="alert alert-success text-center" role="alert">
-                     Upload Success: <a href="${data.links[0]}" target="_blank" class="result-link">${data.links[0]}</a>
+                     UPLOAD BERHASIL: <a href="${data.links[0]}" target="_blank" class="result-link">${data.links[0]}</a>
                     </div>`
                     resultDiv.style.display = 'block';
                 }else{
@@ -98,13 +93,12 @@
             }
 
         });
-
       imageInput.addEventListener('change', function(event) {
       const file = event.target.files[0];
        if (file) {
-         const filesize = file.size / 1024; // In KB
-         if (filesize > 20480) { // 20 MB
-             alert("Ukuran File terlalu Besar, Max 20 MB!");
+         const filesize = file.size / 1024;
+         if (filesize > 200480) { 
+             alert("Ukuran File terlalu Besar, Max 200 MB!");
              imageInput.value = "";
          }
         }
