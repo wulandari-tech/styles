@@ -17,19 +17,32 @@ const upload = multer({
 // Middleware untuk melayani file statis dari folder 'public'
 app.use(express.static(path.join(__dirname)));
 
-app.post('/upload', upload.single('image'), async (req, res) => {
+app.post('/upload', upload.single('file'), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ error: 'Tidak ada file yang diunggah.' });
         }
 
         const fileBuffer = req.file.buffer;
-        const originalFileName = req.file.originalname || 'image.jpg';
-        const customFileName = 'wanz.jpg'; // Nama file custom
-        const formData = new FormData();
-        formData.append('images', fileBuffer, originalFileName); // Gunakan nama asli saat upload
+        const originalFileName = req.file.originalname || 'file';
+        let customFileName = 'wanz';
+         let fileExtension = path.extname(originalFileName).toLowerCase(); // Mendapatkan ekstensi file
 
-        const uploadURL = 'https://telegraph.zorner.men/upload';
+        // Tentukan nama file custom berdasarkan jenis file
+        if (fileExtension === '.mp4' || fileExtension === '.mov' || fileExtension === '.avi') {
+             customFileName += '.mp4';
+        } else if (fileExtension === '.mp3' || fileExtension === '.wav' || fileExtension === '.ogg') {
+             customFileName += '.mp3';
+        }else{
+             customFileName += '.jpg';
+        }
+
+
+        const formData = new FormData();
+         formData.append('file', fileBuffer, originalFileName); // Gunakan nama asli saat upload
+        formData.append('images', fileBuffer, originalFileName);
+         const uploadURL = 'https://telegraph.zorner.men/upload';
+
 
         const response = await fetch(uploadURL, {
             method: 'POST',
@@ -53,15 +66,13 @@ app.post('/upload', upload.single('image'), async (req, res) => {
         // Proses hasil dari Telegraph untuk mengganti nama file
         if (result && result.src) {
             const originalUrl = result.src;
-             // Mendapatkan base URL (sampai slash terakhir)
             const baseURL = originalUrl.substring(0, originalUrl.lastIndexOf('/') + 1);
-
             const customUrl = `${baseURL}${customFileName}`;
 
             // Mengembalikan response dengan URL custom
             res.json({ ...result, src: customUrl });
         } else {
-             res.json(result); // Jika tidak ada src di response, kirim aslinya
+            res.json(result); // Jika tidak ada src di response, kirim aslinya
         }
 
     } catch (error) {
