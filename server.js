@@ -8,6 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const PORT = 3000;
+
 // Konfigurasi Cloudflare (Pindahkan ke Variabel Lingkungan untuk produksi!)
 const CLOUDFLARE_ZONE = "8986c21d4df43f0d1708b8f9f6ab4dcd";
 const CLOUDFLARE_API_TOKEN = "FUKXUphvvUDKUQW8v8JIWXBQekynFNOV1ltmT4eE";
@@ -21,6 +22,7 @@ const upload = multer({
 });
 
 app.use(express.static(__dirname));
+app.use(express.json()); // Untuk mengurai body JSON
 app.use(express.urlencoded({ extended: true })); // Untuk mengurai body yang di-encode dalam URL
 
 // Endpoint untuk mengunggah file
@@ -119,13 +121,30 @@ function subDomain1(host, ip) {
         }
     });
 }
+app.get('/api/data', (req, res) => {
+    const apiData = {
+        message: 'Ini adalah data dari server Anda!',
+        timestamp: new Date()
+    };
+    res.json(apiData);
+});
+app.post('/api/data', (req, res) => {
+    const receivedData = req.body;
 
-// Endpoint utama untuk mengirim index.html
+    if (!receivedData) {
+        return res.status(400).json({ error: 'Tidak ada data yang diterima.' });
+    }
+
+    console.log('Data yang diterima dari permintaan POST:', receivedData);
+
+    res.json({
+        message: 'Data diterima dan diproses!',
+        receivedData: receivedData
+    });
+});
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
-
-// Menjalankan server
 app.listen(PORT, () => {
     console.log(`Server berjalan di http://localhost:${PORT}`);
 });
