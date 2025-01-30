@@ -53,6 +53,10 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 });
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+    app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'awan.js'));
+        app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'style.css'));
 });
 app.listen(PORT, () => {
     console.log(`Server berjalan di http://localhost:${PORT}`);
