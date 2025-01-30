@@ -8,7 +8,6 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const PORT = 3000;
-
 // Konfigurasi Cloudflare (Pindahkan ke Variabel Lingkungan untuk produksi!)
 const CLOUDFLARE_ZONE = "8986c21d4df43f0d1708b8f9f6ab4dcd";
 const CLOUDFLARE_API_TOKEN = "FUKXUphvvUDKUQW8v8JIWXBQekynFNOV1ltmT4eE";
