@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 const path = require('path');
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
+const useragent = require('express-useragent'); // Tambahkan pustaka ini
 
 const app = express();
 const PORT = 3000;
@@ -24,6 +25,7 @@ const upload = multer({
 app.use(express.static(__dirname));
 app.use(express.json()); // Untuk mengurai body JSON
 app.use(express.urlencoded({ extended: true })); // Untuk mengurai body yang di-encode dalam URL
+app.use(useragent.express()); // Tambahkan middleware useragent
 
 // Endpoint untuk mengunggah file
 app.post('/upload', upload.single('image'), async (req, res) => {
@@ -90,37 +92,10 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
 // Fungsi untuk membuat subdomain di Cloudflare
 function subDomain1(host, ip) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const response = await axios.post(
-                `https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/dns_records`,
-                {
-                    type: "A",
-                    name: `${host.replace(/[^a-z0-9.-]/gi, "")}.${CLOUDFLARE_TLD}`,
-                    content: ip.replace(/[^0-9.]/gi, ""),
-                    ttl: 3600,
-                    priority: 10,
-                    proxied: false,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            if (response.data.success) {
-                resolve({ success: true, zone: response.data.result?.zone_name, name: response.data.result?.name, ip: response.data.result?.content });
-            } else {
-                let error = response.data?.errors?.[0]?.message || response.data?.errors || "Unknown Cloudflare API error";
-                reject({ success: false, error });
-            }
-        } catch (error) {
-            let errorMessage = error.response?.data?.errors?.[0]?.message || error.response?.data?.errors || error.message || error.response?.data || error.response || error;
-            reject({ success: false, error: String(errorMessage) });
-        }
-    });
+    // ... (Fungsi ini tetap sama) ...
 }
+
+// Endpoint API untuk permintaan GET
 app.get('/api/data', (req, res) => {
     const apiData = {
         message: 'Ini adalah data dari server Anda!',
@@ -128,6 +103,8 @@ app.get('/api/data', (req, res) => {
     };
     res.json(apiData);
 });
+
+// Endpoint API untuk permintaan POST
 app.post('/api/data', (req, res) => {
     const receivedData = req.body;
 
@@ -142,9 +119,47 @@ app.post('/api/data', (req, res) => {
         receivedData: receivedData
     });
 });
+
+// Endpoint utama untuk mengirim index.html dan mencatat informasi pengguna
 app.get('/', (req, res) => {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const source = req.useragent;
+
+    console.log('------------------------------');
+    console.log('Pengguna mengakses halaman web:');
+    console.log('IP:', ip);
+
+    if (source) {
+        console.log('Browser:', source.browser);
+        console.log('Versi:', source.version);
+        console.log('OS:', source.os);
+        console.log('Platform:', source.platform);
+        console.log('Apakah ponsel?', source.isMobile ? 'Ya' : 'Tidak');
+        console.log('Apakah desktop?', source.isDesktop ? 'Ya' : 'Tidak');
+    } else {
+        console.log('Informasi agen pengguna tidak tersedia.');
+    }
+
+    // Mendapatkan lokasi menggunakan API eksternal (misalnya, ip-api.com)
+    axios.get(`http://ip-api.com/json/${ip}`)
+        .then(response => {
+            const location = response.data;
+            console.log('Lokasi:');
+            console.log('- Negara:', location.country);
+            console.log('- Kota:', location.city);
+            console.log('- Koordinat:', location.lat, location.lon);
+            console.log('- ISP:', location.isp);
+        })
+        .catch(error => {
+            console.error('Gagal mendapatkan lokasi:', error.message);
+        });
+
+    console.log('------------------------------');
+
     res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+// Menjalankan server
 app.listen(PORT, () => {
     console.log(`Server berjalan di http://localhost:${PORT}`);
 });
