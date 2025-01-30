@@ -4,37 +4,221 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>telegraph</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            position: relative;
+            background-color: #3498db;
+            /* Warna latar belakang */
+            color: #fff;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Overlay gelap */
+        }
+
+        .hero-section .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+
+
+        .upload-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .upload-card h2 {
+            margin-bottom: 10px;
+        }
+
+        .result-area {
+            margin-top: 20px;
+            display: none;
+            align-items: center;
+        }
+
+        .result-input {
+            width: calc(100% - 60px);
+            display: inline-block;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            padding: 0.375rem 0.75rem;
+            border-radius: 4px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #4caf50;
+            width: 0%;
+            border-radius: 5px;
+            text-align: center;
+            color: white;
+            line-height: 10px;
+            transition: width 0.3s ease;
+        }
+
+
+        .skeleton-loader {
+            background-color: #f2f2f2;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skeleton-loader.skeleton-title {
+            height: 30px;
+            margin-bottom: 20px;
+            width: 50%;
+        }
+
+        .skeleton-loader.skeleton-input {
+            height: 40px;
+            width: 100%;
+        }
+
+        .skeleton-loader.skeleton-button {
+            height: 45px;
+            width: 100%;
+        }
+
+        .skeleton-loader::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 1.5s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        #image-preview {
+            margin-top: 10px;
+            max-width: 100%;
+            max-height: 200px;
+            display: none;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 60px;
+            }
+
+            .upload-card {
+                padding: 60px;
+                max-width: 2000%;
+            }
+
+            .result-input {
+                width: calc(100% - 50px);
+            }
+        }
+
+        .subdomain-area {
+            margin-top: 10px;
+            display: none;
+            align-items: center;
+        }
+
+        .subdomain-input {
+            width: calc(100% - 60px);
+            display: inline-block;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            padding: 0.375rem 0.75rem;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
     <header class="bg-gray-800 text-white py-4">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <p class="text-2xl font-bold">WANZOFC</p>
             <div class="flex space-x-4">
-             <button id="en-lang-btn" class="text-sm">EN</button>
-             <button id="id-lang-btn" class="text-sm">ID</button>
-             </div>
+                <button id="en-lang-btn" class="text-sm">EN</button>
+                <button id="id-lang-btn" class="text-sm">ID</button>
+            </div>
         </div>
     </header>
-     <section class="hero-section">
+    <section class="hero-section">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl font-bold mb-4">Wanzofc, Unggah Gambar Lebih Cepat</h1>
-            <p class="text-xl  mb-8">Dapatkan tautan langsung gambar Anda dengan mudah.</p>
+            <p class="text-xl mb-8">Dapatkan tautan langsung gambar Anda dengan mudah.</p>
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Mulai Unggah</button>
         </div>
     </section>
-     <section class="features-section py-12 bg-gray-100">
+    <section class="features-section py-12 bg-gray-100">
         <div class="container mx-auto px-4">
             <h2 class="text-center text-3xl font-bold mb-8">Fitur Unggulan</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -44,12 +228,12 @@
                     <p class="text-gray-600">Unggah gambar Anda dengan cepat dan mudah.</p>
                 </div>
                 <div class="text-center">
-                     <i class="fas fa-shield-alt fa-3x text-green-500 mb-3"></i>
+                    <i class="fas fa-shield-alt fa-3x text-green-500 mb-3"></i>
                     <h3 class="text-xl font-semibold mb-2">Aman dan Terpercaya</h3>
                     <p class="text-gray-600">Layanan yang aman untuk semua kebutuhan unggah gambar.</p>
                 </div>
                 <div class="text-center">
-                     <i class="fas fa-check-circle fa-3x text-yellow-500 mb-3"></i>
+                    <i class="fas fa-check-circle fa-3x text-yellow-500 mb-3"></i>
                     <h3 class="text-xl font-semibold mb-2">Mudah Digunakan</h3>
                     <p class="text-gray-600">Antarmuka yang sederhana dan intuitif untuk semua pengguna.</p>
                 </div>
@@ -61,20 +245,20 @@
             <h2 class="text-center text-3xl font-bold mb-8">Cara Penggunaan</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="text-center">
-                   <i class="fas fa-upload fa-3x text-gray-500 mb-3"></i>
+                    <i class="fas fa-upload fa-3x text-gray-500 mb-3"></i>
                     <h3 class="text-xl font-semibold mb-2">Unggah Gambar</h3>
                     <p class="text-gray-600">Pilih gambar yang ingin Anda unggah dari perangkat Anda.</p>
                 </div>
-                 <div class="text-center">
+                <div class="text-center">
                     <i class="fas fa-spinner fa-3x text-gray-500 mb-3"></i>
                     <h3 class="text-xl font-semibold mb-2">Proses</h3>
-                     <p class="text-gray-600">Tunggu proses unggah selesai.</p>
+                    <p class="text-gray-600">Tunggu proses unggah selesai.</p>
                 </div>
-                 <div class="text-center">
+                <div class="text-center">
                     <i class="fas fa-link fa-3x text-gray-500 mb-3"></i>
-                     <h3 class="text-xl font-semibold mb-2">Dapatkan Tautan</h3>
-                     <p class="text-gray-600">Salin tautan yang dihasilkan untuk dibagikan.</p>
-                 </div>
+                    <h3 class="text-xl font-semibold mb-2">Dapatkan Tautan</h3>
+                    <p class="text-gray-600">Salin tautan yang dihasilkan untuk dibagikan.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -90,54 +274,61 @@
         </div>
     </div>
     <div class="container" data-aos="fade-up" data-aos-duration="1000">
-            <div class="upload-card bg-white shadow-md rounded-lg p-5">
-                <h2 class="text-center text-2xl font-bold mb-5">telegraph by wanzofc</h2>
-                <p class="text-center text-gray-600 mb-4">UNGGAHAN BY WANZOFC MAXIMAL 200MB!</p>
-                <div id="upload-progress" class="progress-bar-container">
-                     <div class="progress-bar">0%</div>
-                 </div>
-                <div class="text-center">
-                    <img id="image-preview" class="mb-3" data-src="">
-                </div>
-                <form id="upload-form" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <div class="relative border-dashed border-2 border-gray-400 rounded-md p-5 text-center cursor-pointer hover:bg-gray-100 transition duration-300">
-                                <label for="image-upload" class="cursor-pointer">
-                                    <i class="fas fa-cloud-upload-alt fa-3x text-gray-500 mb-3"></i>
-                                    <p class="text-gray-600">upload</p>
-                                </label>
-                            <input type="file" class="form-control-file border-gray-300 rounded-md px-2 py-1 absolute inset-0 opacity-0 cursor-pointer w-full h-full" id="image-upload" name="image" accept="image/*" required>
-                        </div>
-                    </div>
-                    <button type="submit"
-                        class="btn btn-primary btn-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mt-4">
-                        <i class="fas fa-upload mr-2"></i> upload
-                    </button>
-                </form>
-                <div class="result-area" id="result-area">
-                    <input type="text" class="result-input" id="result-link-input" readonly>
-                    <button class="btn btn-secondary" id="copy-button">
-                        <i class="fas fa-copy"></i> copy
-                    </button>
-                </div>
+        <div class="upload-card bg-white shadow-md rounded-lg p-5">
+            <h2 class="text-center text-2xl font-bold mb-5">telegraph by wanzofc</h2>
+            <p class="text-center text-gray-600 mb-4">UNGGAHAN BY WANZOFC MAXIMAL 200MB!</p>
+            <div id="upload-progress" class="progress-bar-container">
+                <div class="progress-bar">0%</div>
             </div>
+            <div class="text-center">
+                <img id="image-preview" class="mb-3" data-src="">
+            </div>
+            <form id="upload-form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="relative border-dashed border-2 border-gray-400 rounded-md p-5 text-center cursor-pointer hover:bg-gray-100 transition duration-300">
+                        <label for="image-upload" class="cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt fa-3x text-gray-500 mb-3"></i>
+                            <p class="text-gray-600">upload</p>
+                        </label>
+                        <input type="file"
+                            class="form-control-file border-gray-300 rounded-md px-2 py-1 absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                            id="image-upload" name="image" accept="image/*" required>
+                    </div>
+                </div>
+                <button type="submit"
+                    class="btn btn-primary btn-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mt-4">
+                    <i class="fas fa-upload mr-2"></i> upload
+                </button>
+            </form>
+            <div class="result-area" id="result-area">
+                <input type="text" class="result-input" id="result-link-input" readonly>
+                <button class="btn btn-secondary" id="copy-button">
+                    <i class="fas fa-copy"></i> copy
+                </button>
+            </div>
+            <div class="subdomain-area" id="subdomain-area">
+                <input type="text" class="subdomain-input" id="subdomain-link-input" readonly>
+                <button class="btn btn-secondary" id="copy-subdomain-button">
+                    <i class="fas fa-copy"></i> copy
+                </button>
+            </div>
+        </div>
     </div>
     <footer class="bg-gray-800 text-white py-2 mt-8">
         <div class="container mx-auto px-4">
             <p>© 2024-2025 wanzofc.</p>
-             <p>by <i class="fas fa-heart text-red-500"></i></p>
+            <p>by <i class="fas fa-heart text-red-500"></i></p>
             <div class="mt-2">
                 <a href="https://Instagram.com/wanz_brayy" class="mx-2"><i class="fab fa-instagram"></i></a>
                 <a href="https://github.com/wanzbrayy/" class="mx-2"><i class="fab fa-github"></i></a>
             </div>
-             <div class="mt-2">
-                 <a href="#" class="text-gray-400 hover:text-white">Kebijakan Privasi</a>
-                 <span class="mx-2 text-gray-400">|</span>
+            <div class="mt-2">
+                <a href="#" class="text-gray-400 hover:text-white">Kebijakan Privasi</a>
+                <span class="mx-2 text-gray-400">|</span>
                 <a href="#" class="text-gray-400 hover:text-white">Syarat & Ketentuan</a>
             </div>
         </div>
     </footer>
-    <script src="awan.js"></script
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -145,7 +336,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -182,7 +373,196 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
-     <script src="https://unpkg.com/scrollreveal"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.16/typed.umd.js"></script>
-     <script src="awan.js"></script
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.16/typed.umd.js"></script>
+    <script>
+        const form = document.getElementById('upload-form');
+        const imageInput = document.getElementById('image-upload');
+        const resultDiv = document.getElementById('result-area');
+        const subdomainDiv = document.getElementById('subdomain-area');
+        const resultLinkInput = document.getElementById('result-link-input');
+        const subdomainLinkInput = document.getElementById('subdomain-link-input');
+        const progressContainer = document.getElementById('upload-progress');
+        const progressBar = progressContainer.querySelector('.progress-bar');
+        const copyButton = document.getElementById('copy-button');
+        const copySubdomainButton = document.getElementById('copy-subdomain-button');
+        const skeletonContainer = document.getElementById('skeleton-container');
+        const mainContainer = document.querySelector('.container:not(#skeleton-container)');
+        const imagePreview = document.getElementById('image-preview');
+        const progressBarTween = gsap.to(progressBar, {
+            duration: 1,
+            width: '100%',
+            ease: 'power2.out',
+            paused: true,
+            onUpdate: function () {
+                progressBar.textContent = `${Math.round(this.progress() * 100)}%`
+            },
+            onComplete: function () {
+                progressBar.textContent = "100%"
+            }
+        });
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            skeletonContainer.style.display = 'block';
+            mainContainer.style.display = 'none';
+            progressContainer.style.display = 'block';
+            resultDiv.style.display = 'none';
+            subdomainDiv.style.display = 'none';
+            progressBar.style.width = '0%';
+            progressBarTween.play(0);
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+                if (!response.ok) {
+                    throw new Error(`Upload Gagal: ${response.status} `)
+                }
+                const data = await response.json();
+                if (data && data.src) {
+                     resultLinkInput.value = data.src;
+                     resultDiv.style.display = 'flex';
+
+                   if(data.subdomain){
+                       subdomainLinkInput.value = `https://${data.subdomain}`;
+                       subdomainDiv.style.display = 'flex';
+                   }
+                    Swal.fire({
+                        icon: 'success',
+                        title: i18next.t('upload_success'),
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: i18next.t('upload_fail')
+                    })
+                    resultDiv.style.display = 'none';
+                    subdomainDiv.style.display = 'none';
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: i18next.t('upload_error') + error.message,
+                })
+                resultDiv.style.display = 'none';
+                subdomainDiv.style.display = 'none';
+            } finally {
+                progressBarTween.pause(0);
+                progressContainer.style.display = 'none';
+                skeletonContainer.style.display = 'none';
+                mainContainer.style.display = 'flex';
+            }
+        });
+        copyButton.addEventListener('click', () => {
+            resultLinkInput.select();
+            document.execCommand('copy');
+            Swal.fire({
+                icon: 'success',
+                title: 'Link Copied!'
+            })
+        });
+         copySubdomainButton.addEventListener('click', () => {
+            subdomainLinkInput.select();
+            document.execCommand('copy');
+            Swal.fire({
+                icon: 'success',
+                title: 'Subdomain Copied!'
+            })
+        });
+
+
+        imageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const filesize = file.size / 1024;
+                if (filesize > 200480) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Ukuran file terlalu besar, Max 200 MB!',
+                    });
+                    imageInput.value = "";
+                    imagePreview.style.display = "none"
+                    imagePreview.dataSrc = "";
+                } else {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block'
+                    }
+                    reader.readAsDataURL(file);
+                }
+            } else {
+                imagePreview.style.display = "none"
+                imagePreview.dataSrc = "";
+            }
+        });
+
+        AOS.init();
+        i18next.init({
+            lng: 'id',
+            resources: {
+                en: {
+                    translation: {
+                        upload_success: 'UPLOAD SUCCESSFUL',
+                        upload_fail: 'Upload Failed, No Link Returned!',
+                        upload_error: 'Error during upload:'
+                    }
+                }
+            }
+        });
+        const enLangBtn = document.getElementById('en-lang-btn');
+        const idLangBtn = document.getElementById('id-lang-btn');
+
+        enLangBtn.addEventListener('click', () => {
+            i18next.changeLanguage('en');
+            Swal.fire({
+                icon: 'success',
+                title: 'Language changed to english'
+            })
+        });
+
+        idLangBtn.addEventListener('click', () => {
+            i18next.changeLanguage('id');
+            Swal.fire({
+                icon: 'success',
+                title: 'Bahasa diubah ke indonesia'
+            })
+        });
+
+        ScrollReveal().reveal('.container', {
+            delay: 200,
+            distance: '50px',
+            easing: 'ease-in-out',
+            origin: 'bottom',
+            reset: true
+        });
+
+        const typed = new Typed('.upload-card h2', {
+            strings: ['telegraph by wanzofc'],
+            typeSpeed: 50,
+            backSpeed: 25,
+            loop: false,
+        });
+
+        if (window.Worker) {
+            const myWorker = new Worker('worker.js')
+            myWorker.onmessage = function (event) {
+                console.log('Message received from worker', event.data)
+            }
+            myWorker.postMessage({
+                message: 'hello world!'
+            })
+        }
+    </script>
+    <script>
+        self.onmessage = function (event) {
+            console.log('Message received in worker', event.data);
+            self.postMessage({ response: 'Hello from Worker!' });
+        }
+    </script>
+</body>
+</html>
