@@ -27,6 +27,36 @@ app.use(express.json()); // Untuk mengurai body JSON
 app.use(express.urlencoded({ extended: true })); // Untuk mengurai body yang di-encode dalam URL
 app.use(useragent.express()); // Tambahkan middleware useragent
 
+// Fungsi untuk membuat subdomain di Cloudflare
+async function subDomain1(host, ip) {
+    const apiUrl = `https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/dns_records`;
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CLOUDFLARE_API_TOKEN}`
+    };
+
+    const data = {
+        type: 'A',
+        name: `${host}.${CLOUDFLARE_TLD}`,
+        content: ip,
+        ttl: 120,
+        proxied: true
+    };
+
+    try {
+        const response = await axios.post(apiUrl, data, { headers });
+        if (response.data.success) {
+            return { success: true, name: `${host}.${CLOUDFLARE_TLD}` };
+        } else {
+            console.error("Cloudflare API Error:", response.data.errors);
+            return { success: false, error: response.data.errors };
+        }
+    } catch (error) {
+        console.error("Error creating subdomain:", error);
+        return { success: false, error: error.message };
+    }
+}
+
 // Endpoint untuk mengunggah file
 app.post('/upload', upload.single('image'), async (req, res) => {
     try {
@@ -90,11 +120,6 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     }
 });
 
-// Fungsi untuk membuat subdomain di Cloudflare
-function subDomain1(host, ip) {
-    // ... (Fungsi ini tetap sama) ...
-}
-
 // Endpoint API untuk permintaan GET
 app.get('/api/data', (req, res) => {
     const apiData = {
@@ -121,7 +146,7 @@ app.post('/api/data', (req, res) => {
 });
 
 // Endpoint utama untuk mengirim index.html dan mencatat informasi pengguna
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const source = req.useragent;
 
@@ -140,19 +165,18 @@ app.get('/', (req, res) => {
         console.log('Informasi agen pengguna tidak tersedia.');
     }
 
-    // Mendapatkan lokasi menggunakan API eksternal (misalnya, ip-api.com)
-    axios.get(`http://ip-api.com/json/${ip}`)
-        .then(response => {
-            const location = response.data;
-            console.log('Lokasi:');
-            console.log('- Negara:', location.country);
-            console.log('- Kota:', location.city);
-            console.log('- Koordinat:', location.lat, location.lon);
-            console.log('- ISP:', location.isp);
-        })
-        .catch(error => {
-            console.error('Gagal mendapatkan lokasi:', error.message);
-        });
+    try {
+        // Mendapatkan lokasi menggunakan API eksternal (misalnya, ip-api.com)
+        const response = await axios.get(`http://ip-api.com/json/${ip}`);
+        const location = response.data;
+        console.log('Lokasi:');
+        console.log('- Negara:', location.country);
+        console.log('- Kota:', location.city);
+        console.log('- Koordinat:', location.lat, location.lon);
+        console.log('- ISP:', location.isp);
+    } catch (error) {
+        console.error('Gagal mendapatkan lokasi:', error.message);
+    }
 
     console.log('------------------------------');
 
