@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    },
+      {
+      "src": "*.js",
+      "use": "@vercel/node",
+      "config": {"includeFiles": ["*.js"]}
+
+    },
+
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+     {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+     {
+       "src": "CNAME",
+       "use": "@vercel/static"
+     }
+
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/$1"
+    },
+     {
+      "src": "/server",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/awan",
+      "dest": "/awan.js"
+    },
+    { "src": "/",  "dest": "/index.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+    }
