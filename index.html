@@ -23,13 +23,12 @@
             min-height: 100vh;
             font-family: 'Roboto', sans-serif;
             overflow-x: hidden;
-            position: relative; /* Penting agar z-index pada video berfungsi */
+            position: relative; 
         }
 
         .hero-section {
             position: relative;
             background-color: #3498db;
-            /* Warna latar belakang */
             color: #fff;
             z-index: 1; /* Pastikan konten hero-section di atas video */
         }
@@ -223,16 +222,11 @@
 </head>
 
 <body>
-
-    <!-- Video Background -->
     <video autoplay loop muted playsinline class="background-video" id="background-video">
         <source src="https://files.catbox.moe/7w1s7a.mp4" type="video/mp4">
         Browser Anda tidak mendukung tag video.
     </video>
-
-    <!-- Tombol Pengaturan Suara -->
     <button id="toggle-sound">🔊</button>
-
     <header class="bg-gray-800 text-white py-4">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <p class="text-2xl font-bold">WANZOFC</p>
@@ -242,29 +236,12 @@
             </div>
         </div>
     </header>
-
-    <!-- Iklan Atas (Sebelum Hero Section) -->
-    <div class="container">
-      <div class="adsense">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7641680856061316"
-             crossorigin="anonymous"></script>
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-7641680856061316"
-             data-ad-slot="xxxxxxxxxx"  <!-- Ganti dengan ad slot yang benar -->
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-      </div>
-    </div>
-
+    
     <section class="hero-section">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl font-bold mb-4">Wanzofc, Unggah Gambar Lebih Cepat</h1>
-            <p class="text-xl mb-8">CREATE SUBDOMAIN FREE BY WANZOFC KLIK DI SAMPING INI.</p>
-            <a href="https://api.awan-attack.my.id"
+            <p class="text-xl mb-8">CONTACT WANZOFC KLIK DI SAMPING INI.</p>
+            <a href="https://wa.me/62895402567224"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">CREATE SUBDOMAIN FREE</a>
         </div>
     </section>
